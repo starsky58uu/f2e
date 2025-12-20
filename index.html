@@ -82,18 +82,13 @@
             var audio = document.getElementById("bgm");
             var btn = document.getElementById("music-toggle");
             
-            // 1. 讀取之前的狀態 (是否播放中)
             var isPlaying = localStorage.getItem("musicPlaying") === "true";
-            
-            // 2. 讀取之前的播放時間 (這是新加的！)
             var savedTime = localStorage.getItem("musicTime");
 
-            // 如果有紀錄時間，就設定過去 (讓音樂接關)
             if (savedTime) {
                 audio.currentTime = parseFloat(savedTime);
             }
 
-            // 如果之前是開著的，嘗試自動播放
             if (isPlaying) {
                 var playPromise = audio.play();
                 if (playPromise !== undefined) {
@@ -106,7 +101,6 @@
                 }
             }
 
-            // 按鈕點擊事件
             btn.addEventListener("click", function() {
                 if (audio.paused) {
                     audio.play();
@@ -117,15 +111,12 @@
                 }
             });
 
-            // 3. 關鍵步驟：當使用者離開頁面時，記錄現在播到第幾秒
             window.addEventListener("beforeunload", function() {
-                // 只有在播放時才紀錄時間，避免下次進來從奇怪的地方開始
                 if (!audio.paused) {
                     localStorage.setItem("musicTime", audio.currentTime);
                 }
             });
 
-            // 更新按鈕外觀 & 儲存播放狀態
             function updateBtn(playing) {
                 if (playing) {
                     btn.innerHTML = "🎶 音樂：開";
@@ -137,6 +128,49 @@
                     localStorage.setItem("musicPlaying", "false");
                 }
             }
+        })();
+    </script>
+
+    <script>
+        // --- 效果 A: 首頁大圖往下滑逐漸消失 ---
+        const heroSection = document.getElementById('hero');
+        window.addEventListener('scroll', function() {
+            let scrollPosition = window.scrollY;
+            let newOpacity = 1 - (scrollPosition / 700);
+            if (newOpacity < 0) newOpacity = 0;
+            if (heroSection) heroSection.style.opacity = newOpacity;
+        });
+
+        // --- 效果 B: 下方介紹文字滑入浮現 (IntersectionObserver) ---
+        // 這是最重要的部分，沒有這個，你的介紹文字會一直是隱藏的！
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- 效果 C: 導覽列按鈕點擊發光 ---
+        (function(){
+            var navLinks = document.querySelectorAll('nav ul li a');
+            if(!navLinks) return;
+            navLinks.forEach(function(a){
+                a.addEventListener('click', function(e){
+                    a.classList.add('nav-glow');
+                    if (a.__navGlowTimeout) clearTimeout(a.__navGlowTimeout);
+                    a.__navGlowTimeout = setTimeout(function(){
+                        a.classList.remove('nav-glow');
+                        a.__navGlowTimeout = null;
+                    }, 520);
+                });
+                a.addEventListener('animationend', function(){
+                    a.classList.remove('nav-glow');
+                });
+            });
         })();
     </script>
 
