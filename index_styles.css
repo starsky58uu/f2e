@@ -1,10 +1,11 @@
-/* index_styles.css */
-
+/* index_styles.css - 終極修正版 */
 /* --- 基礎設定 --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* 這裡可以設定一個全站預設游標，作為最後一道防線 */
+    /* cursor: url('photo/滑鼠.PNG'), auto; */
 }
 
 /* --- 修改原本的 body 設定 --- */
@@ -17,10 +18,46 @@ body {
     /* === 新增：因為導覽列變成固定浮動，所以身體要往下推 80px (導覽列高度)，才不會被擋住 === */
     padding-top: 80px; 
 
-    /* 確保所有頁面都有可愛的游標 (選用) */
-    /* cursor: url('photo/蜜蜂.PNG'), auto; */
+    /* === 游標設定區 (一般狀態) === */
+    /* 請確認你的圖片檔名真的是 '滑鼠.PNG' (大寫 PNG) */
+    cursor: url('photo/hand2.PNG'), auto !important; 
 }
 
+/* === 游標設定區 (連結/點擊狀態) === */
+/* 這邊列出所有需要變成手指的元素 */
+a, 
+button, 
+.music-btn, 
+.map-item, 
+.cursor-pointer,
+.logo a, 
+nav ul li a,
+/* 👇 新增：把所有會動的設施群組都加進來 */
+.ferris-wheel-group,
+.pirate-ship-group,
+.carousel-group,
+.balloon-group,
+.coaster-group {
+    /* 滑鼠移上去時 */
+    cursor: url('photo/hand.PNG'), pointer !important; 
+}
+
+/* 👇 關鍵修正：定義 "按下去的瞬間 (:active)" */
+/* 如果不寫這個，點擊的瞬間瀏覽器會切換回預設手指 */
+a:active, 
+button:active, 
+.music-btn:active, 
+.map-item:active, 
+.cursor-pointer:active,
+.logo a:active, 
+nav ul li a:active,
+.ferris-wheel-group:active,
+.pirate-ship-group:active,
+.carousel-group:active,
+.balloon-group:active,
+.coaster-group:active {
+    cursor: url('photo/hand.PNG'), pointer !important; 
+}
 /* --- 頂部導航欄 (Header) --- */
 header {
     background-color: #f7a8d8;
@@ -364,4 +401,225 @@ h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
 @keyframes music-beat {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(247, 168, 216, 0.8); }
+}
+/* =========================================
+   新增：首頁資訊區塊 (營業時間 & 購票)
+========================================= */
+
+.info-section {
+    padding: 60px 20px;
+    background-color: #ffe6f6; /* 與背景融合，或可改白色 */
+    display: flex;
+    justify-content: center;
+}
+
+/* 讓兩個區塊背景有點區隔，票價區用白色 */
+.ticket-section {
+    background-color: #fff;
+}
+
+/* 白色大卡片 */
+.info-card {
+    background-color: #fff;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(247, 168, 216, 0.2);
+    border: 3px solid #ffeef7; /* 淡粉色邊框 */
+    text-align: center;
+}
+
+/* 標題樣式 */
+.info-card h2 {
+    color: #f58bbd;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+/* 標題下方的粉色線條 */
+.info-card h2::after {
+    content: '';
+    display: block;
+    width: 120%; /* 比字長一點 */
+    height: 3px;
+    background-color: #f7a8d8;
+    margin: 10px auto 0;
+    transform: translateX(-10%); /* 置中修正 */
+}
+
+/* --- 營業時間樣式 --- */
+.hours-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.hours-item {
+    flex: 1;
+    min-width: 200px;
+    border: 2px solid #dceeff; /* 淡藍色邊框 */
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.hours-item h3 {
+    color: #f58bbd;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.hours-item .time {
+    color: #f7a8d8;
+    font-size: 1.8rem; /* 大數字 */
+    font-weight: bold;
+    line-height: 1.4;
+    font-family: "Dela Gothic One", sans-serif; /* 數字用粗體 */
+}
+
+/* --- 購票資訊樣式 --- */
+.ticket-table {
+    margin-top: 30px;
+    border: 2px solid #fce4ec; /* 很淡的粉紅外框 */
+    border-radius: 15px;
+    overflow: hidden; /* 讓圓角內的內容不溢出 */
+}
+
+.ticket-row {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #fce4ec;
+}
+
+/* 奇數行給個淡藍色背景，增加可讀性 */
+.ticket-row:nth-child(even) {
+    background-color: #eaf6ff;
+}
+
+.ticket-row.last-row {
+    border-bottom: none;
+}
+
+.ticket-type {
+    flex: 1;
+    color: #f58bbd;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.ticket-desc {
+    flex: 2;
+    color: #888;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.ticket-price {
+    flex: 1;
+    color: #f58bbd;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: "Dela Gothic One", sans-serif;
+}
+
+/* --- 手機版響應式 --- */
+@media (max-width: 768px) {
+    .hours-grid {
+        flex-direction: column;
+    }
+    
+    .ticket-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 25px 15px;
+    }
+    
+    .ticket-type {
+        font-size: 1.3rem;
+    }
+}
+/* =========================================
+   新增：底部恐龍桌寵專用樣式
+========================================= */
+
+/* 1. 恐龍的容器 (負責定位在最下方) */
+.dino-pet-container {
+    position: fixed;   /* 固定定位 */
+    bottom: 0;         /* 貼齊底部 */
+    left: 0;           /* 貼齊左側 */
+    width: 100%;       /* 寬度佔滿整個螢幕 */
+    height: 0;         /* 高度設為 0，關鍵！這樣才不會擋到背景物件的點擊 */
+    z-index: 10000;    /* 層級設最高，確保在音樂按鈕和導覽列之上 */
+    pointer-events: none; /* 讓滑鼠點擊可以穿透容器 */
+}
+
+/* 2. 恐龍圖片本體 (負責走路動畫) */
+.dino-pet {
+    position: absolute; /* 絕對定位，相對於容器 */
+    bottom: 5px;        /* 距離底部稍微留點空隙，看起來像走在地板上 */
+    left: -100px;       /* 初始位置在螢幕左側外面 */
+    width: 100px;        /* 恐龍大小，可自行調整 */
+    z-index: 10001;
+    height: auto;
+    
+    /* 讓像素圖放大時保持清晰，不會模糊 */
+    image-rendering: pixelated; 
+    
+    /* 如果你希望滑鼠可以點到恐龍本身，加上這行 */
+    pointer-events: auto; 
+
+    /* 複合動畫設定：
+       walkAcross: 負責水平移動，25秒走完一趟，線性速度，無限循環
+       dinoBob: 負責上下晃動，0.5秒晃一次，無限循環，模擬走路顛簸感
+    */
+    animation: walkAcross 25s linear infinite, dinoBob 0.5s ease-in-out infinite;
+}
+
+/* 3. 動畫定義：從右走到左 (修正版：原圖已面朝左) */
+@keyframes walkAcross {
+    0% {
+        /* 起點：在螢幕最右邊外面 (100vw) */
+        /* 因為原圖本來就朝左，所以不用翻轉 (scaleX(1)) */
+        transform: translateX(100vw) scaleX(1); 
+    }
+    49% {
+        /* 走到最左邊外面 (-100px)，保持面朝左 */
+        transform: translateX(-100px) scaleX(1); 
+    }
+    50% {
+        /* 瞬間轉向：到達左邊後，水平翻轉成面朝右 (scaleX(-1)) */
+        transform: translateX(-100px) scaleX(-1); 
+    }
+    99% {
+        /* 往回走：保持面朝右邊，走回右邊畫面外 */
+        transform: translateX(100vw) scaleX(-1);
+    }
+    100% {
+        /* 重置：回到起點，轉回面朝左 */
+        transform: translateX(100vw) scaleX(1);
+    }
+}
+/* 4. 動畫定義：走路時的上下晃動感 */
+@keyframes dinoBob {
+    0%, 100% {
+        bottom: 5px; /* 最低點 */
+    }
+    50% {
+        bottom: 10px; /* 最高點 (往上跳 5px) */
+    }
+}
+
+/* --- 手機版調整 --- */
+@media (max-width: 768px) {
+    .dino-pet {
+        width: 60px; /* 手機上恐龍小一點 */
+        /* 手機螢幕窄，走路時間縮短一點 */
+        animation: walkAcross 15s linear infinite, dinoBob 0.5s ease-in-out infinite;
+    }
 }

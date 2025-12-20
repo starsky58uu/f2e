@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 </head>
+<img src="photo/恐龍走路.GIF" alt="走路恐龍" class="dino-pet">
 <body>
 
     <header>
@@ -46,7 +47,7 @@
 
     <section class="intro-section">
         <div class="intro-container">
-            <h2 class="hidden">✨ 探索夢想的起點</h2>
+            <h2 class="hidden">探索夢想的起點</h2>
             
             <p class="hidden">
                 歡迎來到夢幻遊樂園！這裡不僅僅是一座遊樂園，更是無數歡笑與回憶的誕生地。<br>
@@ -56,16 +57,69 @@
 
             <div class="features">
                 <div class="feature-box hidden">
-                    <h3>🎢 刺激設施</h3>
+                    <h3>刺激設施</h3>
                     <p>挑戰地心引力的極限，感受風在耳邊呼嘯的快感。</p>
                 </div>
                 <div class="feature-box hidden">
-                    <h3>🎡 浪漫氛圍</h3>
+                    <h3>浪漫氛圍</h3>
                     <p>隨著摩天輪緩緩上升，俯瞰整個園區的粉色夢境。</p>
                 </div>
                 <div class="feature-box hidden">
-                    <h3>🎠 親子同樂</h3>
+                    <h3>親子同樂</h3>
                     <p>專為家庭設計的互動區域，讓大小朋友都能盡情玩耍。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section hours-section hidden">
+        <div class="info-card">
+            <h2>營業時間</h2>
+            <div class="hours-grid">
+                <div class="hours-item">
+                    <h3>平日</h3>
+                    <p class="time">09:30<br>至<br>20:00</p>
+                </div>
+                <div class="hours-item">
+                    <h3>假日</h3>
+                    <p class="time">09:00<br>至<br>22:00</p>
+                </div>
+                <div class="hours-item">
+                    <h3>國定假日</h3>
+                    <p class="time">09:00<br>至<br>22:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section ticket-section hidden">
+        <div class="info-card">
+            <h2>購票資訊</h2>
+            <div class="ticket-table">
+                <div class="ticket-row">
+                    <div class="ticket-type">成人票</div>
+                    <div class="ticket-desc">滿18歲以上</div>
+                    <div class="ticket-price">NT$ 360</div>
+                </div>
+                <div class="ticket-row">
+                    <div class="ticket-type">學生票</div>
+                    <div class="ticket-desc">12歲以上或120cm以上<br>(18歲以上需出示學生證)</div>
+                    <div class="ticket-price">NT$ 240</div>
+                </div>
+                <div class="ticket-row">
+                    <div class="ticket-type">孩童票</div>
+                    <div class="ticket-desc">未滿12歲或身高120cm以下</div>
+                    <div class="ticket-price">NT$ 180</div>
+                </div>
+                <div class="ticket-row">
+                    <div class="ticket-type">博愛票</div>
+                    <div class="ticket-desc">身障者或滿60歲以上長者</div>
+                    <div class="ticket-price">NT$ 200</div>
+                </div>
+                <div class="ticket-row last-row">
+                    <div class="ticket-type">壽星票</div>
+                    <div class="ticket-desc">當日壽星(需出示證件)</div>
+                    <div class="ticket-price">NT$ 100</div>
                 </div>
             </div>
         </div>
@@ -81,40 +135,25 @@
         (function() {
             var audio = document.getElementById("bgm");
             var btn = document.getElementById("music-toggle");
-            
             var isPlaying = localStorage.getItem("musicPlaying") === "true";
             var savedTime = localStorage.getItem("musicTime");
 
-            if (savedTime) {
-                audio.currentTime = parseFloat(savedTime);
-            }
+            if (savedTime) audio.currentTime = parseFloat(savedTime);
 
             if (isPlaying) {
                 var playPromise = audio.play();
                 if (playPromise !== undefined) {
-                    playPromise.then(function() {
-                        updateBtn(true);
-                    }).catch(function(error) {
-                        console.log("瀏覽器阻擋自動播放，等待使用者點擊");
-                        updateBtn(false);
-                    });
+                    playPromise.then(function() { updateBtn(true); }).catch(function(error) { updateBtn(false); });
                 }
             }
 
             btn.addEventListener("click", function() {
-                if (audio.paused) {
-                    audio.play();
-                    updateBtn(true);
-                } else {
-                    audio.pause();
-                    updateBtn(false);
-                }
+                if (audio.paused) { audio.play(); updateBtn(true); } 
+                else { audio.pause(); updateBtn(false); }
             });
 
             window.addEventListener("beforeunload", function() {
-                if (!audio.paused) {
-                    localStorage.setItem("musicTime", audio.currentTime);
-                }
+                if (!audio.paused) localStorage.setItem("musicTime", audio.currentTime);
             });
 
             function updateBtn(playing) {
@@ -132,7 +171,6 @@
     </script>
 
     <script>
-        // --- 效果 A: 首頁大圖往下滑逐漸消失 ---
         const heroSection = document.getElementById('hero');
         window.addEventListener('scroll', function() {
             let scrollPosition = window.scrollY;
@@ -141,8 +179,6 @@
             if (heroSection) heroSection.style.opacity = newOpacity;
         });
 
-        // --- 效果 B: 下方介紹文字滑入浮現 (IntersectionObserver) ---
-        // 這是最重要的部分，沒有這個，你的介紹文字會一直是隱藏的！
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -154,7 +190,6 @@
         const hiddenElements = document.querySelectorAll('.hidden');
         hiddenElements.forEach((el) => observer.observe(el));
 
-        // --- 效果 C: 導覽列按鈕點擊發光 ---
         (function(){
             var navLinks = document.querySelectorAll('nav ul li a');
             if(!navLinks) return;

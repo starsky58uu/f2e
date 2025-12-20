@@ -1,18 +1,91 @@
 /* guide_rules.css - 遊園指南專用樣式 */
 
-/* --- 繼承基礎字體 --- */
+/* =========================================
+   1. 基礎設定 & 頁首 (從其他頁面複製過來)
+========================================= */
 body {
     font-family: "Zen Maru Gothic", "Microsoft JhengHei", sans-serif;
     background-color: #ffe6f6;
+    margin: 0;
+    padding: 0;
+    /* 為了不被固定導覽列擋住，這裡也建議加上 padding-top */
+    padding-top: 80px; 
 }
+
+header {
+    background-color: #f7a8d8;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    
+    /* 固定在上方 */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box; /* 確保 padding 不會撐爆寬度 */
+}
+
+.logo img {
+    height: 60px;
+    animation: logo-sway 3s ease-in-out infinite;
+}
+
+/* 導航欄樣式 */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-color: #fff;
+    color: #f58bbd;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: block;
+    font-family: "Yusei Magic", sans-serif;
+    letter-spacing: 1px;
+}
+
+/* --- 關鍵：當前頁面 (Active) 的樣式 --- */
+/* 當 HTML 裡的 a 標籤加上 class="active" 時，就會變成粉底白字 */
+nav ul li a.active {
+    background-color: #f58bbd;
+    color: #fff;
+}
+
+nav ul li a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@keyframes logo-sway {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+}
+
+/* =========================================
+   2. 遊園指南內容 (平板樣式)
+========================================= */
 
 /* --- 版面容器 --- */
 .rules-container {
     width: 100%;
+    /* 扣掉導覽列的高度，確保垂直置中 */
     min-height: calc(100vh - 80px);
     display: flex;
     justify-content: center;
-    align-items: center; /* 垂直置中 */
+    align-items: center; 
     padding: 40px 20px;
     box-sizing: border-box;
 }
@@ -21,14 +94,14 @@ body {
 .tablet-frame {
     background-color: #000;
     width: 100%;
-    max-width: 900px; /* 限制最大寬度 */
-    border-radius: 40px; /* 大圓角 */
-    padding: 40px 30px 30px 30px; /* 上方留多一點給鏡頭 */
+    max-width: 900px; 
+    border-radius: 40px; 
+    padding: 40px 30px 30px 30px; 
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* --- 平板頂部裝飾 (白色長條與圓點) --- */
+/* --- 平板頂部裝飾 --- */
 .tablet-notch {
     position: absolute;
     top: 15px;
@@ -42,7 +115,7 @@ body {
 .speaker {
     width: 80px;
     height: 8px;
-    background-color: #333; /* 深灰色聽筒槽 */
+    background-color: #333;
     border-radius: 10px;
     background: #e0e0e0;
 }
@@ -56,39 +129,38 @@ body {
 
 /* --- 平板螢幕 (藍色背景) --- */
 .tablet-screen {
-    background-color: #dbeaff; /* 淺藍色背景 */
+    background-color: #dbeaff; 
     border-radius: 20px;
     padding: 40px;
     min-height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 內容撐開，結語在最下 */
+    justify-content: space-between; 
 }
 
 /* --- 規則列表 --- */
 .rules-list {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* 每個規則的間距 */
-    align-items: flex-start; /* 靠左對齊 */
+    gap: 20px; 
+    align-items: flex-start; 
 }
 
 /* --- 單個規則氣泡 --- */
 .rule-bubble {
     background-color: #fff;
     padding: 15px 25px;
-    border-radius: 50px; /* 膠囊狀圓角 */
-    color: #8b4513;      /* 深褐色文字 */
+    border-radius: 50px; 
+    color: #8b4513;      
     font-weight: bold;
     font-size: 1.1rem;
     line-height: 1.5;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 柔和陰影 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     
     /* 進場動畫 */
     animation: popIn 0.5s ease-out backwards;
 }
 
-/* 讓氣泡依序出現的延遲效果 */
 .rule-bubble:nth-child(1) { animation-delay: 0.1s; }
 .rule-bubble:nth-child(2) { animation-delay: 0.2s; }
 .rule-bubble:nth-child(3) { animation-delay: 0.3s; }
@@ -101,10 +173,10 @@ body {
 /* --- 底部結語 --- */
 .final-msg {
     text-align: center;
-    color: #a52a2a; /* 紅褐色 */
+    color: #a52a2a; 
     font-size: 1.8rem;
     margin-top: 40px;
-    font-family: "Yusei Magic", sans-serif; /* 手寫風字體 */
+    font-family: "Yusei Magic", sans-serif; 
     text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
 }
 
@@ -122,8 +194,16 @@ body {
 
 /* --- 手機版響應式 --- */
 @media (max-width: 768px) {
+    header {
+        padding: 0 20px;
+    }
+    nav ul li a {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
     .tablet-frame {
-        padding: 30px 10px 10px 10px; /* 邊框變薄 */
+        padding: 30px 10px 10px 10px; 
         border-radius: 20px;
     }
     
@@ -134,7 +214,7 @@ body {
     .rule-bubble {
         font-size: 0.95rem;
         padding: 12px 18px;
-        border-radius: 20px; /* 手機上圓角稍微小一點比較好閱讀 */
+        border-radius: 20px; 
     }
 
     .final-msg {
