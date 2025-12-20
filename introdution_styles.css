@@ -1,0 +1,372 @@
+/* introdution_styles.css - 設施介紹頁專用樣式 */
+
+/* =========================================
+   1. 基礎設定 & 頁首
+========================================= */
+body {
+    font-family: "Zen Maru Gothic", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffe6f6; /* 粉色背景 */
+    overflow-x: hidden;
+}
+
+header {
+    background-color: #f7a8d8;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    /* 這裡原本有 position: fixed 嗎？如果有，這個頁面也要加上，不然滑動效果會不一致 */
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    height: 60px;
+    animation: logo-sway 3s ease-in-out infinite;
+}
+
+/* 導航欄樣式 */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-color: #fff;
+    color: #f58bbd;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: block;
+    font-family: "Yusei Magic", sans-serif;
+    letter-spacing: 1px;
+}
+
+nav ul li a.active {
+    background-color: #f58bbd;
+    color: #fff;
+}
+
+nav ul li a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@keyframes logo-sway {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+}
+
+/* =========================================
+   2. 內容排版 (Guide Container)
+========================================= */
+.guide-container {
+    display: flex;             
+    align-items: center;      
+    justify-content: center;   
+    max-width: 1200px;         
+    margin: 0 auto;            
+    min-height: calc(100vh - 80px); 
+    padding: 40px;
+    
+    /* === 關鍵修正：解決錨點跳轉被導覽列擋住的問題 === */
+    /* 讓瀏覽器知道跳轉時要在上方多留 100px 的緩衝空間 */
+    scroll-margin-top: 100px;
+}
+
+.guide-visual {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide-info {
+    flex: 1; 
+    padding-left: 60px;
+}
+
+.guide-title {
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #59493f;
+    background-color: #ffb7d5;
+    padding: 5px 20px;
+    margin-bottom: 40px;
+    box-shadow: 4px 4px 0px rgba(245, 139, 189, 0.5);
+    font-family: "Yusei Magic", sans-serif;
+}
+
+.description {
+    font-size: 1.15rem;
+    line-height: 2;
+    color: #666;
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+.note {
+    font-size: 1rem;
+    color: #d65db1;
+    font-weight: bold;
+}
+
+h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
+.heavy-title { font-family: "Dela Gothic One", sans-serif; letter-spacing: 2px; }
+
+/* =========================================
+   3. 摩天輪互動組合
+========================================= */
+@keyframes ferris-wheel-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.ferris-wheel-group {
+    position: relative; 
+    width: 80%;           
+    max-width: 500px;
+    margin: 0 auto;       
+    cursor: pointer;      
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+}
+
+/* 通用禁止令 */
+.ferris-wheel-group img, 
+.pirate-ship-group img, 
+.carousel-group img, 
+.balloon-group img,
+.coaster-group img {
+    animation: none !important; 
+    display: block;
+}
+
+/* --- 轉盤 --- */
+.ferris-wheel-group .fw-spinner {
+    position: relative; 
+    width: 100%;          
+    height: auto;
+    z-index: 1;           
+    transform-origin: center center;
+    animation: ferris-wheel-rotate 8s linear infinite !important;
+    animation-play-state: paused !important;
+    will-change: transform;
+}
+
+/* --- 底座 --- */
+.fw-base {
+    position: absolute;   
+    width: 130%;          
+    left: 50%;
+    transform: translateX(-50%); 
+    bottom: -5%;         
+    pointer-events: none; 
+}
+
+/* 互動 */
+.ferris-wheel-group:hover .fw-spinner {
+    animation-play-state: running !important;
+}
+
+/* =========================================
+   5. 海盜船互動組合
+========================================= */
+@keyframes pirate-swing {
+    0% { transform: translateX(-50%) rotate(-25deg); }
+    50% { transform: translateX(-50%) rotate(25deg); }
+    100% { transform: translateX(-50%) rotate(-25deg); }
+}
+
+.pirate-ship-group {
+    position: relative; 
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.ps-base {
+    position: relative;
+    width: 110%;
+    height: auto;
+    z-index: 2; 
+}
+
+.pirate-ship-group .ps-swing {
+    position: absolute;
+    top: 0%; 
+    left: 50%;
+    width: 100%; 
+    height: auto;
+    z-index: 1; 
+    transform-origin: top center;
+    transform: translateX(-50%) rotate(0deg);
+    
+    animation: pirate-swing 4s ease-in-out infinite !important;
+    animation-play-state: paused !important;
+    transition: transform 0.8s ease-out;
+    will-change: transform;
+}
+
+.pirate-ship-group:hover .ps-swing {
+    animation-play-state: running !important;
+}
+
+/* =========================================
+   6. 旋轉木馬互動組合
+========================================= */
+@keyframes carousel-bounce {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-30px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+.carousel-group {
+    position: relative;
+    width: 60%; 
+    max-width: 400px;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.carousel-pole {
+    position: relative;
+    width: 40%; 
+    z-index: 1; 
+}
+
+.carousel-group .carousel-horse {
+    position: absolute;
+    width: 80%;   
+    bottom: 10%;  
+    left: 50%;    
+    z-index: 2;   
+    transform: translateX(-50%) translateY(0);
+    
+    animation: carousel-bounce 3s ease-in-out infinite !important;
+    animation-play-state: paused !important;
+    will-change: transform;
+}
+
+.carousel-group:hover .carousel-horse {
+    animation-play-state: running !important;
+}
+
+/* =========================================
+   7. 熱氣球互動組合
+========================================= */
+@keyframes balloon-float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-40px); }
+    100% { transform: translateY(0); }
+}
+
+.balloon-group {
+    position: relative;
+    width: 50%; 
+    max-width: 350px;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.balloon-group .balloon-img {
+    width: 100%;
+    height: auto;
+    transform: translateY(0);
+    animation: balloon-float 4s ease-in-out infinite !important;
+    animation-play-state: paused !important;
+    will-change: transform;
+}
+
+.balloon-group:hover .balloon-img {
+    animation-play-state: running !important;
+}
+
+/* =========================================
+   8. 雲霄飛車互動組合
+========================================= */
+@keyframes coaster-sway {
+    0% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-15px) rotate(-3deg); }
+    75% { transform: translateX(15px) rotate(3deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+
+.coaster-group {
+    position: relative;
+    width: 80%; 
+    max-width: 500px;
+    margin: 0 auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coaster-group .coaster-img {
+    width: 100%;
+    height: auto;
+    transform: translateX(0);
+    animation: coaster-sway 0.5s ease-in-out infinite !important;
+    animation-play-state: paused !important;
+    will-change: transform;
+}
+
+.coaster-group:hover .coaster-img {
+    animation-play-state: running !important;
+}
+
+/* =========================================
+   4. 手機版響應式
+========================================= */
+@media (max-width: 900px) {
+    .guide-container {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .guide-info {
+        padding-left: 0;
+        margin-top: 50px;
+    }
+
+    .guide-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .description {
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .ferris-wheel-group, .pirate-ship-group, .coaster-group {
+        width: 70%; 
+    }
+    .carousel-group, .balloon-group {
+        width: 50%;
+    }
+}

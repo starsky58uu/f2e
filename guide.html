@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遊園指南 - 夢幻遊樂園</title>
+    <link rel="stylesheet" href="index_styles.css">
+    <link rel="stylesheet" href="guide_styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="photo/main-title.png" alt="遊樂園 Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="introdution.html">設施介紹</a></li>
+                <li><a href="map.html">樂園地圖</a></li>
+                <li><a href="guide.html" class="active">遊園指南</a></li>
+                <li class="login-link"><a href="login.html">登入</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="rules-container">
+        
+        <div class="tablet-frame">
+            <div class="tablet-notch">
+                <div class="speaker"></div>
+                <div class="camera"></div>
+            </div>
+
+            <div class="tablet-screen">
+                
+                <div class="rules-list">
+                    <div class="rule-bubble">1. 請於入口處出示您的專屬票券。票券僅限本人當日使用，遺失恕不補發。</div>
+                    <div class="rule-bubble">2. 請遵守各設施安全規定，違者視情況進行驅逐。</div>
+                    <div class="rule-bubble">3. 為維護環境純粹與他人安全，園區內嚴禁攜帶危險物品、易燃物或空拍機。</div>
+                    <div class="rule-bubble">4. 園區內全面禁菸（含電子菸）。</div>
+                    <div class="rule-bubble">5. 未經許可之商業攝影及長時間佔用動線之拍攝將被勸阻。</div>
+                    <div class="rule-bubble">6. 請勿隨意丟棄垃圾，共同維護園區整潔。</div>
+                    <div class="rule-bubble">7. 請遵循各設施之路線，請勿插隊或逆向。</div>
+                    <div class="rule-bubble">8. 如遇到設施問題或身體不適，請第一時間回報給工作人員</div>
+                </div>
+
+                <h2 class="final-msg">請遵循以上規則 祝您遊玩愉快</h2>
+
+            </div>
+        </div>
+
+    </section>
+ <audio id="bgm" loop>
+        <source src="music/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-toggle" class="music-btn">🎵 音樂：關</button>
+
+    <script>
+        (function() {
+            var audio = document.getElementById("bgm");
+            var btn = document.getElementById("music-toggle");
+            
+            // 1. 讀取之前的狀態 (是否播放中)
+            var isPlaying = localStorage.getItem("musicPlaying") === "true";
+            
+            // 2. 讀取之前的播放時間 (這是新加的！)
+            var savedTime = localStorage.getItem("musicTime");
+
+            // 如果有紀錄時間，就設定過去 (讓音樂接關)
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // 如果之前是開著的，嘗試自動播放
+            if (isPlaying) {
+                var playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(function() {
+                        updateBtn(true);
+                    }).catch(function(error) {
+                        console.log("瀏覽器阻擋自動播放，等待使用者點擊");
+                        updateBtn(false);
+                    });
+                }
+            }
+
+            // 按鈕點擊事件
+            btn.addEventListener("click", function() {
+                if (audio.paused) {
+                    audio.play();
+                    updateBtn(true);
+                } else {
+                    audio.pause();
+                    updateBtn(false);
+                }
+            });
+
+            // 3. 關鍵步驟：當使用者離開頁面時，記錄現在播到第幾秒
+            window.addEventListener("beforeunload", function() {
+                // 只有在播放時才紀錄時間，避免下次進來從奇怪的地方開始
+                if (!audio.paused) {
+                    localStorage.setItem("musicTime", audio.currentTime);
+                }
+            });
+
+            // 更新按鈕外觀 & 儲存播放狀態
+            function updateBtn(playing) {
+                if (playing) {
+                    btn.innerHTML = "🎶 音樂：開";
+                    btn.classList.add("playing");
+                    localStorage.setItem("musicPlaying", "true");
+                } else {
+                    btn.innerHTML = "🎵 音樂：關";
+                    btn.classList.remove("playing");
+                    localStorage.setItem("musicPlaying", "false");
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

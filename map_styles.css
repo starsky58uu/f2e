@@ -1,0 +1,204 @@
+/* map_styles.css - 終極修正版 */
+
+/* --- 全局字體設定 --- */
+body {
+    font-family: "Zen Maru Gothic", "Microsoft JhengHei", sans-serif;
+    background-color: #ffe6f6; /* 確保背景也是粉色 */
+}
+
+/* --- 導航欄選中狀態 --- */
+nav ul li a.active {
+    background-color: #f58bbd;
+    color: #fff;
+}
+
+/* --- 頁首樣式 --- */
+header {
+    background-color: #f7a8d8;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.logo img { height: 60px; }
+
+/* =========================================
+   地圖核心結構
+========================================= */
+
+/* 1. 外層容器：負責置中 */
+.map-section {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 讓地圖垂直置中 */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 2. 地圖包裝紙 */
+.map-wrapper {
+    position: relative; /* 定位基準點 */
+    width: 90%;         /* 控制地圖大小 */
+    max-width: 1000px;  /* 最大寬度 */
+    aspect-ratio: 16 / 9; /* 保持地圖比例 */
+}
+
+/* 3. 地圖底圖 */
+.map-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* =========================================
+   互動按鈕設定 (<a> 標籤)
+========================================= */
+
+.map-item {
+    position: absolute; /* 絕對定位，浮在底圖上 */
+    z-index: 10;
+    display: block;     /* 確保連結有體積 */
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.map-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* 貼紙白邊效果 */
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff);
+    transition: filter 0.3s ease;
+}
+
+/* --- 滑鼠移上去的效果 (Hover) --- */
+.map-item:hover {
+    z-index: 20; /* 浮到最上層 */
+}
+
+.map-item:hover img {
+    /* 發光更強 */
+    filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 15px rgba(255, 100, 150, 0.6));
+}
+
+/* --- 滑鼠按下去的效果 (Active) --- */
+.map-item:active {
+    transform: scale(0.95) !important; /* 強制縮小 */
+}
+
+/* =========================================
+   個別位置與旋轉設定
+========================================= */
+
+/* 中間標題 */
+.map-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    pointer-events: none;
+    animation: sway 3s ease-in-out infinite;
+}
+.map-title img { width: 100%; }
+
+
+/* --- 1. 雲霄飛車 --- */
+.pos-coaster {
+    top: 15%;
+    left: 20%;
+    width: 20%;
+    transform: rotate(-5deg);
+}
+.pos-coaster:hover {
+    transform: rotate(-5deg) scale(1.15);
+}
+
+/* --- 2. 熱氣球 --- */
+.pos-balloon {
+    top: 2%;
+    left: 53%;
+    width: 18%;
+    transform: rotate(0deg);
+}
+.pos-balloon:hover {
+    transform: rotate(0deg) scale(1.15);
+}
+
+/* --- 3. 海盜船 --- */
+.pos-ship {
+    bottom: 30%;
+    right: 10%;
+    width: 20%;
+    transform: rotate(5deg);
+}
+.pos-ship:hover {
+    transform: rotate(5deg) scale(1.15);
+}
+
+/* --- 4. 摩天輪 --- */
+.pos-wheel {
+    bottom: 10%;
+    left: 18%;
+    width: 20%;
+}
+.pos-wheel:hover {
+    transform: scale(1.15);
+}
+
+/* --- 5. 小馬 --- */
+.pos-pony {
+    bottom: 5%;
+    right: 33%;
+    width: 20%;
+}
+.pos-pony:hover {
+    transform: scale(1.15);
+}
+
+
+/* =========================================
+   兩側裝飾氣球 (純裝飾)
+========================================= */
+.deco-item {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+}
+.deco-item img { width: 100%; }
+
+.pos-deco-left {
+    top: 15%;
+    left: -15%;
+    width: 40%;
+    animation: float 3s infinite ease-in-out;
+}
+
+.pos-deco-right {
+    bottom: 25%;
+    right: -15%;
+    width: 40%;
+    animation: float 4s infinite ease-in-out reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes sway {
+    0%, 100% { transform: translate(-50%, -50%) rotateZ(0deg); }
+    25% { transform: translate(-50%, -50%) rotateZ(2deg); }
+    75% { transform: translate(-50%, -50%) rotateZ(-2deg); }
+}
+
+/* --- 手機版微調 --- */
+@media (max-width: 768px) {
+    .map-wrapper { width: 100%; }
+    .pos-deco-left, .pos-deco-right { display: none; }
+}

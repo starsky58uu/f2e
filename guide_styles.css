@@ -1,0 +1,143 @@
+/* guide_rules.css - 遊園指南專用樣式 */
+
+/* --- 繼承基礎字體 --- */
+body {
+    font-family: "Zen Maru Gothic", "Microsoft JhengHei", sans-serif;
+    background-color: #ffe6f6;
+}
+
+/* --- 版面容器 --- */
+.rules-container {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 垂直置中 */
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* --- 平板外框 (黑色部分) --- */
+.tablet-frame {
+    background-color: #000;
+    width: 100%;
+    max-width: 900px; /* 限制最大寬度 */
+    border-radius: 40px; /* 大圓角 */
+    padding: 40px 30px 30px 30px; /* 上方留多一點給鏡頭 */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* --- 平板頂部裝飾 (白色長條與圓點) --- */
+.tablet-notch {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.speaker {
+    width: 80px;
+    height: 8px;
+    background-color: #333; /* 深灰色聽筒槽 */
+    border-radius: 10px;
+    background: #e0e0e0;
+}
+
+.camera {
+    width: 12px;
+    height: 12px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+}
+
+/* --- 平板螢幕 (藍色背景) --- */
+.tablet-screen {
+    background-color: #dbeaff; /* 淺藍色背景 */
+    border-radius: 20px;
+    padding: 40px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 內容撐開，結語在最下 */
+}
+
+/* --- 規則列表 --- */
+.rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 每個規則的間距 */
+    align-items: flex-start; /* 靠左對齊 */
+}
+
+/* --- 單個規則氣泡 --- */
+.rule-bubble {
+    background-color: #fff;
+    padding: 15px 25px;
+    border-radius: 50px; /* 膠囊狀圓角 */
+    color: #8b4513;      /* 深褐色文字 */
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 柔和陰影 */
+    
+    /* 進場動畫 */
+    animation: popIn 0.5s ease-out backwards;
+}
+
+/* 讓氣泡依序出現的延遲效果 */
+.rule-bubble:nth-child(1) { animation-delay: 0.1s; }
+.rule-bubble:nth-child(2) { animation-delay: 0.2s; }
+.rule-bubble:nth-child(3) { animation-delay: 0.3s; }
+.rule-bubble:nth-child(4) { animation-delay: 0.4s; }
+.rule-bubble:nth-child(5) { animation-delay: 0.5s; }
+.rule-bubble:nth-child(6) { animation-delay: 0.6s; }
+.rule-bubble:nth-child(7) { animation-delay: 0.7s; }
+.rule-bubble:nth-child(8) { animation-delay: 0.8s; }
+
+/* --- 底部結語 --- */
+.final-msg {
+    text-align: center;
+    color: #a52a2a; /* 紅褐色 */
+    font-size: 1.8rem;
+    margin-top: 40px;
+    font-family: "Yusei Magic", sans-serif; /* 手寫風字體 */
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+}
+
+/* --- 動畫關鍵影格 --- */
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- 手機版響應式 --- */
+@media (max-width: 768px) {
+    .tablet-frame {
+        padding: 30px 10px 10px 10px; /* 邊框變薄 */
+        border-radius: 20px;
+    }
+    
+    .tablet-screen {
+        padding: 20px 15px;
+    }
+
+    .rule-bubble {
+        font-size: 0.95rem;
+        padding: 12px 18px;
+        border-radius: 20px; /* 手機上圓角稍微小一點比較好閱讀 */
+    }
+
+    .final-msg {
+        font-size: 1.4rem;
+    }
+}

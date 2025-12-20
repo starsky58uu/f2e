@@ -1,0 +1,139 @@
+/* login_styles.css - 簡單登入頁樣式 */
+
+:root{
+    --bg: #ffeef6;
+    --card: #ffffff;
+    --accent: #f58bbd;
+    --muted: #777;
+}
+
+/* --- 動畫：背景、卡片、logo --- */
+body::before{
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(circle at 10% 20%, rgba(245,139,189,0.12), transparent 8%),
+                radial-gradient(circle at 80% 80%, rgba(246,168,216,0.10), transparent 12%);
+    opacity: 1;
+    pointer-events: none;
+    animation: bgShift 12s ease-in-out infinite;
+}
+
+@keyframes bgShift{
+    0% { transform: scale(1) translateY(0px); }
+    50% { transform: scale(1.03) translateY(-20px); }
+    100% { transform: scale(1) translateY(0px); }
+}
+
+@keyframes cardEnter {
+    0% { transform: translateY(30px) scale(0.98); opacity: 0; }
+    60% { transform: translateY(-8px) scale(1.02); opacity: 1; }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes logoPop {
+    0% { transform: translateY(-10px) scale(0.92) rotate(-4deg); opacity: 0; }
+    60% { transform: translateY(0) scale(1.06) rotate(3deg); opacity: 1; }
+    100% { transform: translateY(0) scale(1) rotate(0); }
+}
+
+*{box-sizing: border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    font-family: "Zen Maru Gothic", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+    background: linear-gradient(180deg,var(--bg) 0%, #fff 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+}
+
+.login-page{width:100%;max-width:1000px}
+.login-header{display:flex;justify-content:center;padding-bottom:12px}
+.login-logo{height:96px;opacity:0.98;}
+
+@media (max-width: 480px) {
+    .login-logo { height:64px; }
+}
+
+.login-card{
+    background: var(--card);
+    border-radius:12px;
+    padding:28px;
+    width:100%;
+    max-width:420px;
+    margin:0 auto;
+    box-shadow: 0 8px 30px rgba(245,139,189,0.12);
+    text-align:left;
+}
+
+/* 只有在頁面載入成功後才做進場動畫（由 login.html 觸發 .loaded） */
+.login-page.loaded .login-card{
+    animation: cardEnter 800ms cubic-bezier(.22,.9,.36,1) both;
+}
+
+.login-page.loaded .login-logo{
+    animation: logoPop 900ms cubic-bezier(.2,.9,.3,1) both;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"]{
+    transition: box-shadow 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+.login-card input[type="text"]:focus,
+.login-card input[type="password"]:focus{
+    box-shadow: 0 10px 30px rgba(245,139,189,0.12);
+    border-color: var(--accent);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.btn{
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.btn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(245,139,189,0.16);
+}
+
+.login-card h1{margin:0 0 16px 0;font-size:22px;color:#333}
+.login-card label{display:block;margin:12px 0 6px 0;color:var(--muted);font-size:14px}
+.login-card input[type="text"],
+.login-card input[type="password"]{
+    width:100%;padding:12px 14px;border-radius:8px;border:1px solid #eee;background:#fafafa;font-size:15px;
+}
+.row{display:flex;align-items:center;justify-content:space-between;margin:12px 0}
+.remember{font-size:14px;color:var(--muted)}
+.forgot{font-size:14px;color:var(--accent);text-decoration:none}
+.btn{
+    width:100%;padding:12px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent),#f7a8d8);color:#fff;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px;
+}
+.signup{ margin-top:12px;color:var(--muted);font-size:14px;text-align:center }
+.signup a{ color:var(--accent); text-decoration:none }
+
+@media (max-width:480px){
+    .login-card{padding:20px}
+    .login-logo{height:52px}
+}
+/* =========================================
+   新增：可愛字體設定
+========================================= */
+
+/* 讓導航欄的文字變成 "麥克筆手寫風" */
+nav ul li a {
+    font-family: "Yusei Magic", sans-serif;
+    letter-spacing: 1px; /* 字距稍微拉開一點比較好看 */
+}
+
+/* 讓所有標題 (h1, h2, h3) 也變成手寫風 */
+h1, h2, h3 {
+    font-family: "Yusei Magic", sans-serif;
+}
+
+/* 如果想要更強烈的標題 (例如遊園指南的大標題)，可以用這個 class */
+.heavy-title {
+    font-family: "Dela Gothic One", sans-serif;
+    letter-spacing: 2px;
+}
