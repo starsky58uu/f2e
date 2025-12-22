@@ -559,45 +559,56 @@ h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
     pointer-events: none; /* 讓滑鼠點擊可以穿透容器 */
 }
 
-/* 2. 恐龍圖片本體 (負責走路動畫) */
+/* =========================================
+   底部恐龍桌寵 (固定在視窗底部)
+========================================= */
+
+/* 1. 容器：關鍵設定！負責把恐龍釘在螢幕上 */
+.dino-pet-container {
+    position: fixed;      /* ★ 固定定位：不管怎麼滑，它都在視窗原位 */
+    bottom: 0;            /* 貼齊視窗底部 */
+    left: 0;              /* 貼齊視窗左側 */
+    width: 100%;          /* 寬度佔滿 */
+    height: 0;            /* 高度設為 0，避免透明區域擋住網頁連結 */
+    z-index: 10000;       /* 層級設高，確保蓋在其他內容上面 */
+    pointer-events: none; /* 讓滑鼠點擊可以直接穿透容器，點到後面的網頁 */
+}
+
+/* 2. 恐龍本體：負責動畫與大小 */
 .dino-pet {
-    position: absolute; /* 絕對定位，相對於容器 */
-    bottom: 5px;        /* 距離底部稍微留點空隙，看起來像走在地板上 */
-    left: -100px;       /* 初始位置在螢幕左側外面 */
-    width: 100px;        /* 恐龍大小，可自行調整 */
-    z-index: 10001;
+    position: absolute;   /* 相對於容器定位 */
+    bottom: 5px;          /* 站在底部稍微往上一點點 */
+    left: -100px;         /* 初始位置在外面 */
+    width: 100px;         /* 恐龍大小 */
     height: auto;
+    z-index: 10001;
     
-    /* 讓像素圖放大時保持清晰，不會模糊 */
+    /* 讓像素圖保持清晰 */
     image-rendering: pixelated; 
     
-    /* 如果你希望滑鼠可以點到恐龍本身，加上這行 */
+    /* 讓恐龍本體可以被點擊 (如果要加點擊互動的話) */
     pointer-events: auto; 
 
-    /* 複合動畫設定：
-       walkAcross: 負責水平移動，25秒走完一趟，線性速度，無限循環
-       dinoBob: 負責上下晃動，0.5秒晃一次，無限循環，模擬走路顛簸感
-    */
+    /* 動畫設定 */
     animation: walkAcross 25s linear infinite, dinoBob 0.5s ease-in-out infinite;
 }
 
-/* 3. 動畫定義：從右走到左 (修正版：原圖已面朝左) */
+/* 3. 走路路徑動畫 (從右走到左，修正版) */
 @keyframes walkAcross {
     0% {
-        /* 起點：在螢幕最右邊外面 (100vw) */
-        /* 因為原圖本來就朝左，所以不用翻轉 (scaleX(1)) */
+        /* 起點：右邊外面，面朝左 */
         transform: translateX(100vw) scaleX(1); 
     }
     49% {
-        /* 走到最左邊外面 (-100px)，保持面朝左 */
+        /* 走到左邊外面，保持面朝左 */
         transform: translateX(-100px) scaleX(1); 
     }
     50% {
-        /* 瞬間轉向：到達左邊後，水平翻轉成面朝右 (scaleX(-1)) */
+        /* 瞬間轉向：面朝右 */
         transform: translateX(-100px) scaleX(-1); 
     }
     99% {
-        /* 往回走：保持面朝右邊，走回右邊畫面外 */
+        /* 走回右邊外面，保持面朝右 */
         transform: translateX(100vw) scaleX(-1);
     }
     100% {
@@ -605,21 +616,61 @@ h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
         transform: translateX(100vw) scaleX(1);
     }
 }
-/* 4. 動畫定義：走路時的上下晃動感 */
+
+/* 4. 上下晃動動畫 */
 @keyframes dinoBob {
-    0%, 100% {
-        bottom: 5px; /* 最低點 */
-    }
-    50% {
-        bottom: 10px; /* 最高點 (往上跳 5px) */
-    }
+    0%, 100% { bottom: 5px; }
+    50% { bottom: 10px; }
 }
 
-/* --- 手機版調整 --- */
+/* 手機版適配 */
 @media (max-width: 768px) {
     .dino-pet {
-        width: 60px; /* 手機上恐龍小一點 */
-        /* 手機螢幕窄，走路時間縮短一點 */
+        width: 60px; /* 手機上縮小一點 */
+        /* 手機螢幕窄，走快一點 */
         animation: walkAcross 15s linear infinite, dinoBob 0.5s ease-in-out infinite;
     }
+}
+/* =========================================
+   新增：通往裏世界的按鈕樣式
+========================================= */
+
+.mystery-container {
+    width: 100%;
+    text-align: center;
+    padding: 40px 0 80px 0; /* 下方留多一點空間 */
+    background-color: #ffe6f6; /* 跟背景融合 */
+}
+
+.mystery-btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Courier New', monospace; /* 打字機字體，有點懸疑感 */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333; /* 深灰色按鈕 */
+    padding: 15px 40px;
+    border-radius: 50px;
+    transition: all 0.5s ease;
+    border: 2px solid #333;
+    letter-spacing: 5px;
+    
+    /* 讓它隱隱約約在呼吸 */
+    animation: mystery-breath 3s infinite alternate;
+}
+
+/* 滑鼠移上去時，變成紅黑風格，暗示接下來的畫面 */
+.mystery-btn:hover {
+    background-color: #000;
+    color: #ff0000;
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    transform: scale(1.1) rotate(2deg); /* 稍微變大並歪斜 */
+    cursor: help; /* 滑鼠變成問號 */
+}
+
+@keyframes mystery-breath {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.05); }
 }

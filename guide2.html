@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遊園指南 - 夢幻遊樂園 (Horror Ver.)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Kaisei+Tokumin:wght@400;700;800&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index2_styles.css"> <link rel="stylesheet" href="guide2_styles.css"> </head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="./photo/白日夢樂園0.PNG" alt="遊樂園 Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="introdution2.html">？？？？</a></li>
+                <li><a href="map2.html">？？？？</a></li>
+                <li><a href="guide2.html" class="active">？？？？</a></li>
+                <li class="login-link"><a href="login2.html">？？</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="rules-container">
+        
+        <div class="tablet-frame horror-tablet">
+            <div class="tablet-notch">
+                <div class="speaker"></div>
+                <div class="camera"></div>
+            </div>
+
+            <div class="crack-overlay"></div>
+
+            <div class="tablet-screen horror-screen">
+                
+                <h1 class="warning-title">⚠️ 生存守則 ⚠️</h1>
+
+                <div class="rules-list">
+                    <div class="rule-bubble horror-bubble">1. 入園後請勿回頭，祂們就在你身後。</div>
+                    <div class="rule-bubble horror-bubble">2. 若聽見孩子的笑聲，請立即掩耳並閉眼數到十。</div>
+                    <div class="rule-bubble horror-bubble">3. 絕對不要回應任何工作人員的搭話，除非你想永遠留下。</div>
+                    <div class="rule-bubble horror-bubble">4. 摩天輪轉到頂端時，千萬別往下看。</div>
+                    <div class="rule-bubble horror-bubble">5. 紅色氣球代表死亡，請勿觸碰。</div>
+                    <div class="rule-bubble horror-bubble">6. 廁所鏡子裡的倒影不是你。</div>
+                    <div class="rule-bubble horror-bubble">7. 這裡沒有出口...這裡沒有出口...</div>
+                    <div class="rule-bubble horror-bubble glitch-text">8. 快跑！！快跑！！快跑！！</div>
+                </div>
+
+                <h2 class="final-msg horror-msg">祝您……存活愉快……</h2>
+
+            </div>
+        </div>
+
+    </section>
+
+    <img src="photo/blood-stain.png" class="fixed-blood-stain" alt="血跡">
+
+    <audio id="bgm" loop>
+        <source src="music/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-toggle" class="music-btn">🎵 音樂：關</button>
+
+    <script>
+        // 音樂控制腳本
+        (function() {
+            var audio = document.getElementById("bgm");
+            var btn = document.getElementById("music-toggle");
+            var isPlaying = localStorage.getItem("musicPlaying") === "true";
+            var savedTime = localStorage.getItem("musicTime");
+
+            if (savedTime) audio.currentTime = parseFloat(savedTime);
+
+            if (isPlaying) {
+                var playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(function() { updateBtn(true); }).catch(function(error) { updateBtn(false); });
+                }
+            }
+
+            btn.addEventListener("click", function() {
+                if (audio.paused) { audio.play(); updateBtn(true); } 
+                else { audio.pause(); updateBtn(false); }
+            });
+
+            window.addEventListener("beforeunload", function() {
+                if (!audio.paused) localStorage.setItem("musicTime", audio.currentTime);
+            });
+
+            function updateBtn(playing) {
+                if (playing) {
+                    btn.innerHTML = "🎶 音樂：開";
+                    btn.classList.add("playing");
+                    localStorage.setItem("musicPlaying", "true");
+                } else {
+                    btn.innerHTML = "🎵 音樂：關";
+                    btn.classList.remove("playing");
+                    localStorage.setItem("musicPlaying", "false");
+                }
+            }
+        })();
+    </script>
+
+</body>
+</html>

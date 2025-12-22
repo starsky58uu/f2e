@@ -1,0 +1,194 @@
+/* map_styles.css - 恐怖風格版 (無紅框 + 紅色發光) */
+
+/* --- 全局字體與背景設定 --- */
+body {
+    font-family: 'Creepster', 'Kaisei Tokumin', 'Noto Serif TC', serif;
+    /* 背景維持深紅色 */
+    background-color: #2a0000; 
+    color: #ffcccc; 
+    overflow-x: hidden;
+    /* 游標設定 */
+    cursor: url('photo/hand2.PNG'), auto !important; 
+    padding-top: 80px; 
+}
+
+/* 連結與按鈕狀態 */
+a, button, .music-btn, .map-item, .dino-pet {
+    cursor: url('photo/hand.PNG'), pointer !important; 
+}
+
+/* --- 導航欄選中狀態 (紅底黑字) --- */
+nav ul li a.active {
+    background-color: #ff0000;
+    color: #000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+/* --- 頁首樣式 --- */
+header {
+    background-color: #000000;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 3px solid #8b0000; 
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.logo img { height: 60px; } 
+
+/* =========================================
+   地圖核心結構
+========================================= */
+
+/* 1. 外層容器 */
+.map-section {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 20px;
+    box-sizing: border-box;
+    /* 背景維持紅黑漸層 */
+    background: radial-gradient(circle at center, #550000 0%, #2a0000 60%, #000000 100%);
+}
+
+/* 2. 地圖包裝紙 */
+.map-wrapper {
+    position: relative; 
+    width: 90%;         
+    max-width: 1000px;  
+    aspect-ratio: 16 / 9; 
+}
+
+/* 3. 地圖底圖 */
+.map-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+    
+    /* ▼▼▼ 修改 1：拿掉紅框，移除所有濾鏡 ▼▼▼ */
+    border: none; 
+    /* border-radius: 10px; // 如果你想要完全融入背景，圓角也可以拿掉 */
+    
+    /* 只保留一點陰影讓它跟背景分開，或者也可以拿掉讓它懸浮 */
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+}
+
+/* =========================================
+   標題與紅線疊加
+========================================= */
+.map-title-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    z-index: 15;
+    pointer-events: none;
+    animation: sway 3s ease-in-out infinite;
+}
+
+.actual-title {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.red-line-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+/* =========================================
+   互動按鈕設定 (<a> 標籤)
+========================================= */
+
+.map-item {
+    position: absolute; 
+    z-index: 10;
+    display: block;     
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.map-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+/* 移除預設濾鏡，顯示原色 */
+.horror-filter img {
+    /* filter: none; */
+}
+
+/* --- 滑鼠移上去的效果 (Hover) --- */
+.map-item:hover {
+    z-index: 20; 
+}
+
+.map-item:hover img {
+    /* ▼▼▼ 修改 2：滑鼠移上去發「紅光」 ▼▼▼ */
+    /* brightness 稍微調亮，drop-shadow 用紅色 (#ff0000) */
+    filter: brightness(1.1) drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 15px #8b0000);
+}
+
+/* --- 滑鼠按下去的效果 (Active) --- */
+.map-item:active {
+    transform: scale(0.95) !important; 
+}
+
+/* =========================================
+   個別位置與旋轉設定 (保持不變)
+========================================= */
+
+/* --- 1. 雲霄飛車 --- */
+.pos-coaster { top: 15%; left: 20%; width: 20%; transform: rotate(-5deg); }
+.pos-coaster:hover { transform: rotate(-5deg) scale(1.15); }
+
+/* --- 2. 熱氣球 --- */
+.pos-balloon { top: 2%; left: 53%; width: 18%; transform: rotate(0deg); }
+.pos-balloon:hover { transform: rotate(0deg) scale(1.15); }
+
+/* --- 3. 海盜船 --- */
+.pos-ship { bottom: 30%; right: 10%; width: 20%; transform: rotate(5deg); }
+.pos-ship:hover { transform: rotate(5deg) scale(1.15); }
+
+/* --- 4. 摩天輪 --- */
+.pos-wheel { bottom: 10%; left: 18%; width: 20%; }
+.pos-wheel:hover { transform: scale(1.15); }
+
+/* --- 5. 小馬 --- */
+.pos-pony { bottom: 5%; right: 33%; width: 20%; }
+.pos-pony:hover { transform: scale(1.15); }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes sway {
+    0%, 100% { transform: translate(-50%, -50%) rotateZ(0deg); }
+    25% { transform: translate(-50%, -50%) rotateZ(2deg); }
+    75% { transform: translate(-50%, -50%) rotateZ(-2deg); }
+}
+
+/* --- 手機版微調 --- */
+@media (max-width: 768px) {
+    .map-wrapper { width: 100%; }
+    .pos-deco-left, .pos-deco-right { display: none; }
+}

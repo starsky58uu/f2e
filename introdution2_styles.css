@@ -1,0 +1,315 @@
+/* introdution2_styles.css - 設施介紹恐怖版 (修正位移 + 無濾鏡 + 固定血跡) */
+
+/* --- 全局字體與背景設定 --- */
+body {
+    font-family: 'Creepster', 'Kaisei Tokumin', 'Noto Serif TC', serif;
+    background-color: #2a0000;
+    background: radial-gradient(circle at center, #4a0000 0%, #1a0000 100%);
+    color: #ffcccc;
+    overflow-x: hidden;
+    padding-top: 80px;
+    cursor: url('photo/hand2.PNG'), auto !important;
+}
+
+/* 連結與按鈕狀態 */
+a, button, .music-btn, .dino-pet {
+    cursor: url('photo/hand.PNG'), pointer !important;
+}
+
+/* --- 導航欄 --- */
+nav ul li a.active {
+    background-color: #ff0000;
+    color: #000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+header {
+    background-color: #000000;
+    border-bottom: 3px solid #8b0000;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+/* =========================================
+   內容排版
+========================================= */
+.guide-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px;
+    background: radial-gradient(closest-side, rgba(139, 0, 0, 0.2), transparent);
+    scroll-margin-top: 100px;
+}
+
+.reverse-layout {
+    flex-direction: row-reverse;
+}
+
+.guide-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide-info {
+    flex: 1;
+    padding: 0 40px;
+}
+
+.guide-title {
+    display: inline-block;
+    font-family: 'Nosifer', cursive;
+    font-size: 2.5rem;
+    color: #ff0000; 
+    text-shadow: 2px 2px 0px #000, 0 0 10px #8b0000;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #8b0000;
+    box-shadow: 0 10px 10px -10px #ff0000;
+    padding-bottom: 10px;
+}
+
+.description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    text-align: justify;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.note {
+    font-size: 1rem;
+    color: #ff4444;
+    font-weight: bold;
+    border-left: 3px solid #ff0000;
+    padding-left: 10px;
+}
+
+/* =========================================
+   恐怖圖片框 (關鍵修正區)
+========================================= */
+.horror-frame {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+    /* ▼▼▼ 修改 1：把放大效果加在容器上，而不是圖片上 ▼▼▼ */
+    transition: transform 0.3s ease;
+}
+
+/* ▼▼▼ 修改 2：滑鼠移上去時，整個框框放大 ▼▼▼ */
+.horror-frame:hover {
+    transform: scale(1.05); /* 放大整個容器，內部相對位置不變 */
+    z-index: 10; /* 確保浮在最上層 */
+}
+
+/* 通用圖片設定 */
+.facility-img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    filter: none !important; /* 無濾鏡 */
+    /* 這裡移除了 transition，因為動畫由 keyframes 控制 */
+}
+
+/* 組合式圖片特殊設定 */
+.ferris-wheel-group .facility-img,
+.pirate-ship-group .facility-img,
+.carousel-group .facility-img {
+    width: auto;
+    max-height: none;
+}
+
+/* ▼▼▼ 修改 3：徹底移除對內部圖片的 transform 干擾 ▼▼▼ */
+.horror-frame:hover .facility-img {
+    /* 這裡什麼都不寫，保持原樣，才不會讓定位跑掉 */
+}
+
+/* 隱藏紅色遮罩 */
+.blood-mask { display: none; }
+
+
+/* =========================================
+   ▼▼▼ 設施定位與動畫 (絕對定位版) ▼▼▼
+========================================= */
+
+/* --- 動畫開關 --- */
+.ferris-wheel-group img, 
+.pirate-ship-group img, 
+.carousel-group img, 
+.balloon-group img, 
+.coaster-group img {
+    animation-play-state: paused !important;
+}
+
+.horror-frame:hover .fw-spinner,
+.horror-frame:hover .ps-swing,
+.horror-frame:hover .carousel-horse,
+.horror-frame:hover .balloon-img,
+.horror-frame:hover .coaster-img {
+    animation-play-state: running !important;
+}
+
+
+/* --- 1. 摩天輪 --- */
+.ferris-wheel-group { position: relative; width: 100%; height: 100%; }
+
+.fw-spinner {
+    position: absolute;
+    width: 80% !important;
+    left: 50%;
+    top: 50%;
+    /* 包含 translate 的動畫 */
+    transform: translate(-50%, -60%); 
+    animation: ferris-wheel-rotate-fixed 8s linear infinite;
+    z-index: 2;
+}
+
+.fw-base {
+    position: absolute;
+    width: 100% !important;
+    left: 50%;
+    bottom: 15%;
+    transform: translateX(-50%); /* 這是原本的定位，不能被 hover 覆蓋 */
+    z-index: 1;
+}
+
+@keyframes ferris-wheel-rotate-fixed {
+    0% { transform: translate(-50%, -60%) rotate(0deg); }
+    100% { transform: translate(-50%, -60%) rotate(360deg); }
+}
+
+
+/* --- 2. 海盜船 --- */
+.pirate-ship-group { position: relative; width: 100%; height: 100%; }
+
+.ps-swing {
+    position: absolute;
+    width: 100% !important;
+    top:13%;
+    left: 50%;
+    transform-origin: top center;
+    z-index: 1;
+    animation: pirate-swing-fixed 4s ease-in-out infinite;
+}
+
+.ps-base {
+    position: absolute;
+    width: 100% !important;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+@keyframes pirate-swing-fixed {
+    0% { transform: translateX(-50%) rotate(-25deg); }
+    50% { transform: translateX(-50%) rotate(25deg); }
+    100% { transform: translateX(-50%) rotate(-25deg); }
+}
+
+
+/* --- 3. 旋轉木馬 --- */
+.carousel-group { position: relative; width: 100%; height: 100%; }
+
+.carousel-pole {
+    position: absolute;
+    width: 30% !important;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.carousel-horse {
+    position: absolute;
+    width: 70% !important;
+    bottom: 30%;
+    left: 50%;
+    z-index: 2;
+    animation: carousel-bounce-fixed 3s ease-in-out infinite;
+}
+
+@keyframes carousel-bounce-fixed {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-20px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+
+/* --- 4. 熱氣球 --- */
+.balloon-group {
+    position: relative; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+}
+.balloon-img {
+    width: 80%;
+    animation: balloon-float 4s ease-in-out infinite;
+}
+@keyframes balloon-float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
+}
+
+
+/* --- 5. 雲霄飛車 --- */
+.coaster-group {
+    position: relative; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+}
+.coaster-img {
+    width: 90%;
+    animation: coaster-sway 0.5s ease-in-out infinite;
+}
+@keyframes coaster-sway {
+    0% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-10px) rotate(-2deg); }
+    75% { transform: translateX(10px) rotate(2deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+
+
+/* =========================================
+   左下角固定血跡
+========================================= */
+.fixed-blood-stain {
+    position: fixed; 
+    bottom: 0;       
+    left: 0;         
+    width: 300px;    
+    height: auto;
+    z-index: 999;    
+    pointer-events: none; 
+    opacity: 0.8;    
+    filter: sepia(1) saturate(5) hue-rotate(-50deg) contrast(1.5);
+}
+
+/* =========================================
+   手機版響應式
+========================================= */
+@media (max-width: 900px) {
+    .guide-container {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+        margin: 30px auto;
+    }
+    .guide-info { padding: 0; margin-top: 30px; }
+    .guide-title { font-size: 2rem; }
+    .description { text-align: left; }
+    .horror-frame { width: 280px; height: 280px; }
+    .fixed-blood-stain { width: 150px; }
+}

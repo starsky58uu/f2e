@@ -1,0 +1,196 @@
+/* login2_styles.css - 恐怖版登入頁 (血幕下滑特效) */
+
+:root {
+    --bg-color: #1a0000;
+    --card-bg: #0d0000; 
+    --text-color: #ffcccc;
+    --accent-color: #ff0000;
+    --border-color: #330000;
+}
+
+/* --- 全局設定 --- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+
+body {
+    font-family: 'Noto Serif TC', serif;
+    background-color: var(--bg-color);
+    /* 模擬恐怖材質 */
+    background-image: repeating-linear-gradient(45deg, #1a0000 0, #1a0000 10px, #110000 10px, #110000 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    cursor: url('photo/hand2.PNG'), auto;
+}
+
+a, button, input { cursor: url('photo/hand.PNG'), pointer; }
+
+/* =========================================
+   ▼▼▼ 1. 修正後的開場特效 (血幕下滑) ▼▼▼
+========================================= */
+
+.melt-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9999;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 動畫：停留 1.5秒 -> 下滑消失 */
+    animation: bloodSlide 3s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+
+/* 開場文字：故障閃爍效果 */
+.melt-overlay::after {
+    content: "SYSTEM ERROR...";
+    font-family: 'Creepster', cursive;
+    font-size: 3rem;
+    color: #ff0000;
+    text-shadow: 2px 0 #fff, -2px 0 #00f;
+    animation: glitchText 0.3s infinite;
+}
+
+/* 下滑動畫關鍵影格 */
+@keyframes bloodSlide {
+    0% { transform: translateY(0); opacity: 1; }
+    60% { transform: translateY(0); opacity: 1; } /* 停留一下 */
+    100% { transform: translateY(120%); opacity: 1; } /* 整個往下滑出螢幕 */
+}
+
+/* 文字故障動畫 */
+@keyframes glitchText {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* =========================================
+   ▼▼▼ 2. 頁面內容 (登入卡片) ▼▼▼
+========================================= */
+
+.login-page {
+    width: 100%; max-width: 450px; padding: 20px;
+    position: relative; z-index: 1;
+    /* 配合開場動畫，內容慢慢浮現 */
+    opacity: 0;
+    animation: fadeInContent 1s ease-out 2s forwards;
+}
+
+@keyframes fadeInContent {
+    to { opacity: 1; }
+}
+
+.login-card {
+    background: var(--card-bg);
+    border: 3px solid var(--border-color);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 50px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 標題 */
+.card-header { text-align: center; margin-bottom: 30px; }
+
+.horror-text {
+    font-family: 'Creepster', cursive;
+    color: var(--accent-color);
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 0 0 15px var(--accent-color);
+}
+
+.subtitle {
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 5px;
+    letter-spacing: 2px;
+}
+
+/* 輸入框 */
+.input-group { margin-bottom: 20px; }
+
+.horror-label {
+    display: block; color: var(--accent-color);
+    font-weight: bold; margin-bottom: 8px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%; padding: 12px 15px;
+    background-color: #1a0000;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 5px; font-size: 16px;
+    transition: all 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+    background-color: #000;
+}
+
+/* 記住我 & 忘記密碼 */
+.row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px; font-size: 0.9rem;
+}
+
+.horror-link {
+    color: var(--text-color); text-decoration: none;
+    border-bottom: 1px dotted var(--text-color);
+    transition: 0.3s;
+}
+.horror-link:hover { color: var(--accent-color); border-color: var(--accent-color); }
+
+.remember { display: flex; align-items: center; cursor: pointer; }
+.remember input { margin-right: 8px; accent-color: var(--accent-color); }
+
+/* 按鈕 */
+.horror-btn {
+    width: 100%; padding: 15px;
+    background: linear-gradient(to bottom, #ff0000, #8b0000);
+    border: none; border-radius: 5px;
+    color: #000; font-size: 1.2rem; font-weight: 900;
+    font-family: 'Noto Serif TC', serif;
+    letter-spacing: 2px;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(255,0,0,0.3);
+}
+
+.horror-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #ff0000;
+}
+
+.horror-text-sm { text-align: center; margin-top: 20px; color: #888; font-size: 0.9rem; }
+
+/* 底部血滴裝飾 (純CSS) */
+.blood-drip {
+    position: absolute; bottom: -10px; left: 0; width: 100%; height: 30px;
+    background: radial-gradient(circle at 50% 0, #ff0000 10px, transparent 15px);
+    background-size: 30px 30px;
+    background-repeat: repeat-x;
+    opacity: 0.5;
+    filter: blur(2px);
+}
+
+/* 底部返回連結 */
+.back-link-container { text-align: center; margin-top: 30px; }
+.back-link { font-weight: bold; font-size: 1.1rem; border: none; }
+.back-link:hover { text-shadow: 0 0 10px #ff0000; }
+
+/* 手機版適配 */
+@media (max-width: 480px) {
+    .login-card { padding: 25px 20px; }
+    .horror-text { font-size: 2rem; }
+}

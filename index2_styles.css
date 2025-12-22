@@ -1,0 +1,435 @@
+/* index2_styles.css - 恐怖風格版 (使用 Kaisei Tokumin 字體) */
+
+/* --- 1. 基礎設定 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* ▼▼▼ 修改：使用 Kaisei Tokumin，這款字體筆畫很尖，有種刺痛感 ▼▼▼ */
+    font-family: 'Creepster', 'Kaisei Tokumin', 'Noto Serif TC', serif;
+    background-color: #2a0000; 
+    color: #ffcccc; 
+    overflow-x: hidden;
+    padding-top: 80px; 
+
+    cursor: url('photo/hand2.PNG'), auto !important; 
+}
+
+a, button, .music-btn, .map-item, .dino-pet {
+    cursor: url('photo/hand.PNG'), pointer !important; 
+}
+
+/* --- 2. 頂部導航欄 --- */
+header {
+    background-color: #000000;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 3px solid #8b0000; 
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo img {
+    height: 60px;
+    animation: logo-sway 3s ease-in-out infinite;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li.login-link {
+    margin-left: auto;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-color: #ff0000;
+    color: #000;
+    font-weight: 800; /* 加粗 */
+    padding: 10px 25px;
+    border-radius: 2px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: block;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    font-family: 'Creepster', 'Kaisei Tokumin', serif;
+}
+
+nav ul li a:hover {
+    background-color: #fff;
+    color: #8b0000;
+    box-shadow: 0 0 15px #ff0000;
+    transform: scale(1.05);
+}
+
+/* --- 3. 主視覺區 --- */
+.playground {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle, #330000 0%, #000000 100%);
+}
+
+.deco-img {
+    position: absolute;
+    height: auto;
+}
+
+.title-container {
+    position: relative; 
+    z-index: 10;        
+    width: 55%;         
+    max-width: 700px;
+    animation: title-sway 3s ease-in-out infinite; 
+}
+
+.actual-title {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 1; 
+}
+
+.red-line-overlay {
+    position: absolute; 
+    top: 0;             
+    left: 0;            
+    width: 100%;        
+    height: 100%;       
+    z-index: 2; 
+    pointer-events: none; 
+}
+
+/* =========================================
+   動畫定義
+========================================= */
+
+@keyframes logo-sway { 
+    0% { transform: rotate(-2deg); } 
+    50% { transform: rotate(2deg); } 
+    100% { transform: rotate(-2deg); } 
+}
+
+@keyframes title-sway { 
+    0% { transform: translateX(0) rotate(-1deg); } 
+    50% { transform: translateX(5px) rotate(1deg); } 
+    100% { transform: translateX(0) rotate(-1deg); } 
+}
+
+@keyframes sway-tilt { 
+    0% { transform: translateX(0px) rotate(-3deg); } 
+    50% { transform: translateX(14px) rotate(6deg); } 
+    100% { transform: translateX(0px) rotate(-3deg); } 
+}
+
+@keyframes float { 
+    0% { transform: translateY(0px); } 
+    50% { transform: translateY(-40px); } 
+    100% { transform: translateY(0px); } 
+}
+
+@keyframes pirate-top-sway { 
+    0% { transform: rotate(-30deg); } 
+    50% { transform: rotate(30deg); } 
+    100% { transform: rotate(-30deg); } 
+}
+
+@keyframes ferris-wheel-rotate { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+/* =========================================
+   個別設施位置與動畫套用
+========================================= */
+
+.coaster { 
+    top: 8%; left: 3%; width: 18%; 
+    transform: rotate(-5deg); 
+    animation: sway-tilt 4s ease-in-out infinite;
+}
+
+.balloon { 
+    top: 3%; left: 50%; width: 10%; 
+    animation: float 6s ease-in-out infinite;
+}   
+
+.flags { 
+    top: 0%; right: 0%; width: 50%; 
+    animation: float 6s ease-in-out infinite;
+}
+
+.pirate-ship2 { 
+    bottom: 8%; left: 5%; width: 20%; 
+    transform-origin: 50% 0%; 
+    animation: pirate-top-sway 2s ease-in-out infinite;
+}
+.pirate-ship3 { bottom: 8%; left: 5%; width: 20%; }
+
+.ferris-wheel3 { 
+    bottom: 1%; left: 41%; width: 18%; 
+    transform-origin: center center; 
+    animation: ferris-wheel-rotate 8s linear infinite;
+}
+.ferris-wheel4 { 
+    bottom: 0%; left: 50%; width: 23%; 
+    transform: translateX(-50%); 
+}
+
+.pony { 
+    bottom: 5%; right: 10%; width: 15%; 
+    transform-origin: 50% 65%; 
+    animation: sway-tilt 4s ease-in-out infinite;
+}
+
+
+/* --- 4. 介紹區 --- */
+.intro-section {
+    position: relative;
+    background-color: #000;
+    padding: 80px 20px;
+    text-align: center;
+    border-top: 5px solid #8b0000;
+    box-shadow: 0 0 50px rgba(0,0,0,0.9) inset;
+}
+
+.intro-container { max-width: 900px; margin: 0 auto; }
+
+.horror-text {
+    /* ▼▼▼ 修改：套用新的尖銳字體 ▼▼▼ */
+    font-family: 'Creepster', 'Kaisei Tokumin', 'Noto Serif TC', serif;
+    color: #ff0000;
+    font-size: 2.5rem;
+    font-weight: 800; /* 最粗體 */
+    text-shadow: 0 0 10px #8b0000;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.intro-section p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 2;
+    margin-bottom: 50px;
+    /* 內文也套用，會有種神經質的感覺 */
+    font-family: 'Kaisei Tokumin', serif;
+}
+
+.features { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+
+.feature-box {
+    flex: 1; min-width: 250px;
+    background-color: #1a0000;
+    padding: 30px;
+    border: 2px solid #ff0000;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    background-color: #330000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+}
+
+.feature-box h3 {
+    color: #ff4444;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-family: 'Creepster', 'Kaisei Tokumin', serif;
+}
+
+.feature-box p { margin-bottom: 0; color: #aaa; font-family: 'Kaisei Tokumin', serif; }
+
+
+/* --- 5. 資訊區塊 --- */
+.info-section {
+    padding: 60px 20px;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #330000;
+}
+
+.info-wrapper {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.blood-line {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
+    margin: 20px 0 40px 0;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+/* --- 營業時間卡片 --- */
+.cards-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.horror-card {
+    flex: 1;
+    min-width: 200px;
+    background-color: #000;
+    border: 4px solid #ff0000;
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.horror-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+    background-color: #1a0000;
+}
+
+.horror-card h3 {
+    color: #ff0000;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-family: 'Creepster', 'Kaisei Tokumin', serif;
+}
+
+.scary-time {
+    color: #ff0000;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.5;
+    text-shadow: 0 0 5px #8b0000;
+    font-family: 'Creepster', serif; 
+}
+
+/* --- 購票列表 --- */
+.ticket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ticket-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border: 2px solid #ff0000;
+    border-radius: 10px;
+    background-color: #0d0000;
+    transition: background 0.3s;
+}
+
+.ticket-item:hover {
+    background-color: #330000;
+}
+
+.ticket-item .type {
+    color: #ffcccc;
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: 'Kaisei Tokumin', serif;
+}
+
+.ticket-item .price {
+    color: #ff0000;
+    font-size: 1.6rem;
+    font-family: 'Creepster', cursive;
+}
+
+/* --- Scroll Reveal --- */
+.hidden { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
+.show { opacity: 1; transform: translateY(0); }
+
+/* --- 恐龍 --- */
+.dino-pet-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.dino-pet {
+    position: absolute;
+    bottom: 5px;
+    left: -100px;
+    width: 100px;
+    height: auto;
+    image-rendering: pixelated; 
+    pointer-events: auto; 
+    animation: walkAcross 25s linear infinite, dinoBob 0.5s ease-in-out infinite;
+}
+
+@keyframes walkAcross {
+    0% { transform: translateX(100vw) scaleX(1); }
+    49% { transform: translateX(-100px) scaleX(1); }
+    50% { transform: translateX(-100px) scaleX(-1); }
+    99% { transform: translateX(100vw) scaleX(-1); }
+    100% { transform: translateX(100vw) scaleX(1); }
+}
+
+@keyframes dinoBob {
+    0%, 100% { bottom: 5px; }
+    50% { bottom: 10px; }
+}
+
+/* --- 音樂按鈕 --- */
+.music-btn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background-color: #000;
+    border: 3px solid #ff0000;
+    color: #ff0000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff0000;
+    transition: all 0.3s;
+}
+
+.music-btn:hover, .music-btn.playing {
+    background-color: #ff0000;
+    color: #000;
+    box-shadow: 0 0 20px #ff0000;
+}
+
+@media (max-width: 768px) {
+    .cards-grid { flex-direction: column; }
+    .ticket-list { width: 100%; }
+    .horror-text { font-size: 2rem; }
+    
+    .coaster { width: 35%; }
+    .balloon { width: 18%; }
+    .flags { width: 40%; }
+    .pirate-ship { width: 28%; }
+    .ferris-wheel { width: 25%; }
+    .pony { width: 25%; }
+}
