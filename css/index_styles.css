@@ -349,3 +349,111 @@ h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
     .dino-pet { width: 60px; bottom: 5px; }
     .mystery-container { padding: 20px 0 60px 0; }
 }
+/* =========================================
+   ▼▼▼ 粉色夢幻版頁尾 (新增) ▼▼▼
+========================================= */
+.dreamy-footer {
+    background-color: #fff0f5; /* 淺粉色背景 (LavenderBlush) */
+    border-top: 4px solid #ffb7c5; /* 深粉色邊框 */
+    padding: 60px 20px 20px;
+    margin-top: 50px;
+    color: #cc8899; /* 藕粉色文字 */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* RWD */
+    gap: 30px;
+}
+
+/* 左側文字 */
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+}
+.contact-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #ff99bb; /* 亮粉色標題 */
+    font-weight: bold;
+}
+.contact-item p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* 中間 Logo */
+.footer-logo {
+    flex: 1;
+    text-align: center;
+    min-width: 200px;
+}
+.footer-logo img {
+    height: 70px; /* Logo 大小 */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+.footer-logo img:hover {
+    transform: scale(1.1) rotate(5deg); /* 滑鼠移過去會晃動 */
+}
+
+/* 右側社群 */
+.footer-social {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    min-width: 250px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    width: 45px;
+    height: 45px;
+    background-color: #ffb7c5; /* 按鈕背景色 */
+    color: #fff; /* 圖示顏色 */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
+}
+
+.social-icons a:hover {
+    background-color: #ff8da1; /* hover 變深 */
+    transform: translateY(-5px); /* 往上浮起 */
+    box-shadow: 0 6px 15px rgba(255, 141, 161, 0.6);
+}
+
+/* 底部版權宣告 */
+.copyright {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed #ffb7c5;
+    font-size: 0.9rem;
+    color: #d8aab6;
+}
+
+/* 手機版 RWD */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-social {
+        justify-content: center;
+    }
+}

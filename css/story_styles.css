@@ -1,0 +1,239 @@
+/* story_styles.css - 美化置中版 */
+
+:root {
+    --bg-color: #000;
+    --text-color: #e0e0e0;
+    --accent-red: #ff3333;
+    --accent-dim: #550000;
+    --hud-bg: rgba(20, 0, 0, 0.9);
+    --border-style: 2px solid var(--accent-red);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'Noto Serif TC', 'Courier New', monospace;
+    color: var(--text-color);
+    overflow: hidden;
+    height: 100vh;
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    /* ★關鍵修改：讓內容垂直水平置中 */
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    transition: filter 1s ease;
+}
+
+/* 讓背景暗一點，凸顯對話框 */
+#game-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* --- 場景氛圍 --- */
+.scene-normal {
+    background-image: url('photo/park_day.jpg'); 
+    filter: brightness(1);
+}
+.scene-horror {
+    background-image: url('photo/park_night.jpg'); 
+    filter: contrast(1.2) sepia(0.8) hue-rotate(-50deg) saturate(1.5);
+    /* 加一點紅色暈影 */
+    box-shadow: inset 0 0 100px #000;
+}
+
+/* --- HUD 數值欄 (上方固定) --- */
+.status-bar {
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    gap: 40px;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    font-family: 'Courier New', monospace;
+    text-shadow: 1px 1px 2px #000;
+    box-sizing: border-box;
+}
+
+.stat-box { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+    width: 250px;
+}
+
+.label { 
+    color: #fff; 
+    font-weight: bold; 
+    min-width: 60px;
+}
+
+.progress-bg { 
+    flex: 1; 
+    height: 12px; 
+    background: #220000; 
+    border: 1px solid #666; 
+    transform: skewX(-20deg); /* 讓血條斜斜的比較帥 */
+    overflow: hidden;
+}
+
+.progress-fill { 
+    height: 100%; 
+    transition: width 0.5s cubic-bezier(0.25, 1.5, 0.5, 1); /* 彈跳效果 */
+}
+
+#san-bar { background: #00ffff; box-shadow: 0 0 10px #00ffff; } 
+#pain-bar { background: #ff0000; box-shadow: 0 0 10px #ff0000; } 
+
+.inventory-box { 
+    color: #ffd700; 
+    margin-left: auto; /* 推到最右邊 */
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+/* --- ★核心修改：置中對話框 --- */
+.dialogue-area {
+    width: 80%;
+    max-width: 800px;
+    background-color: rgba(10, 5, 5, 0.85); /* 半透明深色背景 */
+    border: var(--border-style);
+    border-radius: 4px;
+    padding: 40px;
+    position: relative;
+    z-index: 50;
+    /* 讓它有發光感 */
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 50px rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px); /* 背景模糊 */
+    
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+/* 裝飾角落 */
+.dialogue-area::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; right: -5px;
+    width: 20px; height: 20px;
+    border-bottom: 3px solid var(--accent-red);
+    border-right: 3px solid var(--accent-red);
+}
+.dialogue-area::before {
+    content: '';
+    position: absolute;
+    top: -5px; left: -5px;
+    width: 20px; height: 20px;
+    border-top: 3px solid var(--accent-red);
+    border-left: 3px solid var(--accent-red);
+}
+
+.speaker-name {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    background: var(--accent-red);
+    color: #000;
+    padding: 5px 15px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    font-family: 'Noto Serif TC', serif;
+    transform: skewX(-10deg);
+    box-shadow: 3px 3px 0 #000;
+}
+
+.text-content {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    min-height: 100px;
+    text-shadow: 0 0 2px #000;
+}
+
+/* 打字機光標 */
+.typing-cursor::after {
+    content: '_';
+    animation: blink 0.8s infinite;
+    color: var(--accent-red);
+    font-weight: bold;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- 選項按鈕美化 --- */
+.choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.choice-btn {
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1));
+    border: 1px solid #666;
+    border-left: 4px solid #666;
+    color: var(--text-color);
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    font-family: 'Noto Serif TC', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: var(--accent-red);
+    color: #fff;
+    padding-left: 30px;
+    text-shadow: 0 0 8px var(--accent-red);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+/* --- Glitch 雜訊 --- */
+#glitch-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.1),
+        rgba(0,0,0,0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 999;
+}
+
+.glitch-active {
+    animation: glitch-anim 0.2s infinite;
+    opacity: 1 !important;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+@keyframes glitch-anim {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    100% { transform: translate(0); }
+}

@@ -555,3 +555,176 @@ nav ul li a:hover {
     .dino-pet { width: 60px; bottom: 5px; }
     .mystery-container { padding: 20px 0 60px 0; }
 }
+/* =========================================
+   ▼▼▼ 底部聯絡資訊區塊 (恐怖版) ▼▼▼
+========================================= */
+.footer-contact {
+    background-color: #000; /* 全黑背景 */
+    color: #ff0000;         /* 紅色文字 */
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 50px;
+    border-top: 3px solid #330000; /* 頂部加一點深紅邊框 */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2; /* 確保內容在血跡上方 */
+    flex-wrap: wrap; /* 手機版換行 */
+}
+
+/* 左側文字 */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+}
+.contact-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 900;
+    color: #ff0000;
+    text-shadow: 0 0 5px #550000;
+}
+.contact-item p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #cc0000;
+}
+
+/* 中間 Logo */
+.footer-logo {
+    flex: 1;
+    text-align: center;
+    margin: 20px 0;
+}
+.footer-logo img {
+    height: 60px;
+    filter: invert(1) brightness(0.8) sepia(1) hue-rotate(-50deg) saturate(3); /* 讓Logo變恐怖 */
+}
+
+/* 右側血跡與社群 */
+.blood-splatter-container {
+    flex: 1;
+    text-align: right;
+    position: relative;
+    min-height: 200px; /* 預留空間給血跡 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 血跡背景圖 */
+.blood-bg {
+    position: absolute;
+    right: -50px;
+    top: -50px;
+    width: 300px; /* 根據圖片調整大小 */
+    height: auto;
+    opacity: 0.8;
+    z-index: -1; /* 放在文字後面 */
+    pointer-events: none;
+    mix-blend-mode: multiply; /* 讓血跡融入背景 */
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+    z-index: 5;
+}
+
+.social-icons a {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 24px;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: #ff0000;
+    color: #fff;
+    box-shadow: 0 0 15px #ff0000;
+    transform: scale(1.1);
+}
+
+/* 底部返回連結 */
+.back-home-link {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #330000;
+}
+.back-home-link a {
+    color: #888;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+.back-home-link a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+/* 手機版 RWD */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .blood-splatter-container {
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .blood-bg {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+    }
+}
+
+/* =========================================
+   ▼▼▼ 2. 底部 Logo 圖片特效 (微微放大) ▼▼▼
+========================================= */
+.footer-logo img {
+    transition: transform 0.5s ease; /* 設定平滑縮放時間 */
+    /* 維持原本的恐怖濾鏡 */
+    filter: invert(1) brightness(0.8) sepia(1) hue-rotate(-50deg) saturate(3);
+}
+
+.footer-logo img:hover {
+    transform: scale(1.1); /* 滑鼠移上去只放大 1.1 倍 */
+    /* 這裡不再有融化、擺動或滴血的程式碼 */
+}
+
+/* =========================================
+   ▼▼▼ 3. 返回連結特效 (維持恐怖融化) ▼▼▼
+========================================= */
+.back-home-link a {
+    position: relative;
+    display: inline-block;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-origin: top;
+}
+
+.back-home-link a:hover {
+    color: #ff0000;
+    transform: scaleY(1.6) translateY(5px); /* 拉長 */
+    filter: blur(0.8px) contrast(1.5);      /* 模糊 */
+    text-shadow:                            /* 血影 */
+        0 5px 4px rgba(255, 0, 0, 0.8),
+        0 15px 10px rgba(139, 0, 0, 0.6),
+        0 30px 20px rgba(139, 0, 0, 0.3);
+}
