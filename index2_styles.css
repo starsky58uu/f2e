@@ -433,3 +433,125 @@ nav ul li a:hover {
     .ferris-wheel { width: 25%; }
     .pony { width: 25%; }
 }
+/* =========================================
+   ▼▼▼ 手機版 RWD 最終調整 (縮小小馬 + 導覽列靠右) ▼▼▼
+========================================= */
+@media (max-width: 768px) {
+    
+    /* --- 1. 導覽列優化 --- */
+    header {
+        padding: 0 10px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    
+    .logo { flex-shrink: 0; }
+    .logo img { height: 35px !important; } 
+
+    nav {
+        flex: 1 !important;
+        margin-left: 10px !important;
+        overflow: visible !important;
+    }
+
+    nav ul {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-end !important; /* ★關鍵：整組靠右 */
+        align-items: center !important;
+        gap: 8px !important; 
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    nav ul li { 
+        flex-shrink: 0 !important;
+        list-style: none !important;
+        margin-left: 0 !important; 
+    }
+    
+    nav ul li.login-link {
+        margin-left: 0 !important; 
+    }
+    
+    nav ul li a { 
+        font-size: 13px !important;
+        padding: 5px 8px !important; 
+        white-space: nowrap !important; 
+        display: block !important;
+    }
+
+    /* --- 2. 主視覺修正 --- */
+    .playground {
+        height: calc(100vh - 60px);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .main-title {
+        width: 85%;
+        max-width: 320px;
+        z-index: 20;
+    }
+
+    .deco-img {
+        opacity: 1 !important; 
+        pointer-events: none;
+        z-index: 1;
+        position: absolute;
+    }
+
+    .coaster { width: 35%; top: 5%; left: 2%; transform: rotate(-5deg); }
+    
+    .balloon { 
+        width: 20%; 
+        top: 25%;   
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) rotate(5deg);
+    }
+    
+    .flags { width: 100%; top: -2%; left: 0; }
+    
+    .pirate-ship2, .pirate-ship3 { width: 35%; bottom: 12%; left: 2%; top: auto; }
+    
+    /* ★ 小馬縮小 (原本 45% -> 改 30%) */
+    .pony { width: 30%; bottom: 10%; right: 2%; left: auto; top: auto; }
+
+    /* 摩天輪 */
+    .ferris-wheel4 {
+        width: 35%;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 1 !important;
+        z-index: 0;
+    }
+    .ferris-wheel3 {
+        width: 28%;
+        bottom: 6.5%;
+        left: 50%;
+        opacity: 1 !important;
+        z-index: 1;
+        animation: ferris-wheel-rotate-mobile 8s linear infinite;
+        transform-origin: center center;
+    }
+    @keyframes ferris-wheel-rotate-mobile {
+        0% { transform: translateX(-50%) rotate(0deg); }
+        100% { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    /* --- 4. 內容區塊優化 --- */
+    .intro-section, .info-section { padding: 40px 20px; }
+    .features, .hours-grid { flex-direction: column; gap: 20px; }
+    .info-card { padding: 25px 15px; width: 100%; }
+    .ticket-row { flex-direction: column; text-align: center; gap: 5px; }
+    .ticket-price { margin-top: 5px; }
+
+    /* --- 5. 其他元件 --- */
+    .music-btn { padding: 8px 15px; font-size: 13px; bottom: 15px; right: 15px; }
+    .dino-pet { width: 60px; bottom: 5px; }
+    .mystery-container { padding: 20px 0 60px 0; }
+}

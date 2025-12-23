@@ -137,3 +137,18 @@ h1, h2, h3 {
     font-family: "Dela Gothic One", sans-serif;
     letter-spacing: 2px;
 }
+/* --- 底部返回連結置中設定 --- */
+.back-link-container { 
+    width: 100%;         /* 確保容器佔滿整個寬度 */
+    text-align: center;  /* ★關鍵：讓內部的文字/連結水平置中 */
+    margin-top: 30px;    /* 保持上方間距 */
+    display: block;      /* 確保是區塊元素 */
+}
+
+/* 連結本身的樣式 (維持原樣) */
+.back-link { 
+    font-weight: bold; 
+    font-size: 1.1rem; 
+    border: none; 
+    display: inline-block; /* 讓它能被 text-align 控制 */
+}

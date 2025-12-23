@@ -9,7 +9,10 @@
 </head>
 <body>
 
-    <div class="melt-overlay"></div>
+    <div id="blood-container">
+        <canvas id="bloodCanvas"></canvas>
+        <div class="error-text">SYSTEM ERROR...</div>
+    </div>
 
     <main class="login-page">
         
@@ -19,18 +22,18 @@
 
         <section class="login-card hidden" aria-labelledby="login-title">
             <div class="card-header">
-                <h2 id="login-title" class="horror-text">獻祭儀式</h2>
-                <p class="subtitle">請輸入您的靈魂代號</p>
+                <h2 id="login-title" class="horror-text">？？登？</h2>
+                <p class="subtitle">請輸入您的？？</p>
             </div>
 
             <form id="loginForm" action="#" method="post" novalidate>
                 <div class="input-group">
-                    <label for="user" class="horror-label">代號 / 電子郵件</label>
+                    <label for="user" class="horror-label">？電子？？</label>
                     <input id="user" name="user" type="text" placeholder="Ex: 666-GHOST" required>
                 </div>
 
                 <div class="input-group">
-                    <label for="password" class="horror-label">死亡密碼</label>
+                    <label for="password" class="horror-label">密？？碼？</label>
                     <input id="password" name="password" type="password" placeholder="******" required>
                 </div>
 
@@ -43,10 +46,10 @@
                     <a href="#" class="forgot horror-link">忘記了? 沒關係...</a>
                 </div>
 
-                <button type="submit" class="btn horror-btn">開始儀式</button>
+                <button type="submit" class="btn horror-btn">開始...</button>
 
                 <p class="signup horror-text-sm">
-                    還沒有肉體？ <a href="#" class="horror-link">立即轉生</a>
+                    還？？ <a href="#" class="horror-link">？？？</a>
                 </p>
             </form>
 
@@ -54,40 +57,12 @@
         </section>
         
         <div class="back-link-container hidden">
-            <a href="index2.html" class="horror-link back-link">← 逃回遊樂園(表)</a>
+            <a href="index2.html" class="horror-link back-link">← 回遊樂園</a>
         </div>
 
     </main>
 
-    <script>
-        // 頁面載入後觸發動畫
-        window.addEventListener('load', () => {
-            // 1. 開始溶化特效 (CSS 動畫自動開始)
-            // 2. 延遲顯示內容，配合溶化時機
-            setTimeout(() => {
-                document.querySelectorAll('.hidden').forEach(el => {
-                    el.classList.remove('hidden');
-                    el.classList.add('show');
-                });
-            }, 2500); // 2.5秒後顯示內容，配合溶化動畫時間
-
-            // 表單提交示範
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                var user = document.getElementById('user').value.trim();
-                var pwd = document.getElementById('password').value;
-                if (!user) {
-                    alert('請輸入代號'); document.getElementById('user').focus(); return;
-                }
-                if (!pwd) {
-                    alert('請輸入密碼'); document.getElementById('password').focus(); return;
-                }
-                // 恐怖風格提示
-                alert('儀式開始... 請稍候 (示範)');
-                // 實際專案這裡會發送請求到後端
-            });
-        });
-    </script>
+    <script src="login_js.js"></script>
     
 </body>
 </html>

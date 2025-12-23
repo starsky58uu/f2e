@@ -1,63 +1,31 @@
-/* index_styles.css - 終極修正版 */
+/* index_styles.css - 終極修正版 (含 RWD 強制定位) */
+
 /* --- 基礎設定 --- */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    /* 這裡可以設定一個全站預設游標，作為最後一道防線 */
-    /* cursor: url('photo/滑鼠.PNG'), auto; */
+    box-sizing: border-box; /* 確保寬度計算不跑版 */
 }
 
-/* --- 修改原本的 body 設定 --- */
 body {
-    /* 使用 Zen Maru Gothic (圓體) 作為預設字體 */
-    font-family: "Zen Maru Gothic", "Microsoft JhengHei", sans-serif;
+    font-family: "Zen Maru Gothic", "Microsoft JhengHei", "微軟正黑體", sans-serif;
     background-color: #ffe6f6;
-    overflow-x: hidden;
-    
-    /* === 新增：因為導覽列變成固定浮動，所以身體要往下推 80px (導覽列高度)，才不會被擋住 === */
-    padding-top: 80px; 
-
-    /* === 游標設定區 (一般狀態) === */
-    /* 請確認你的圖片檔名真的是 '滑鼠.PNG' (大寫 PNG) */
+    overflow-x: hidden; /* 防止水平捲軸 */
+    padding-top: 80px;  /* 避開導覽列 */
     cursor: url('photo/hand2.PNG'), auto !important; 
 }
 
-/* === 游標設定區 (連結/點擊狀態) === */
-/* 這邊列出所有需要變成手指的元素 */
-a, 
-button, 
-.music-btn, 
-.map-item, 
-.cursor-pointer,
-.logo a, 
-nav ul li a,
-/* 👇 新增：把所有會動的設施群組都加進來 */
-.ferris-wheel-group,
-.pirate-ship-group,
-.carousel-group,
-.balloon-group,
-.coaster-group {
-    /* 滑鼠移上去時 */
+/* 連結與按鈕狀態 */
+a, button, .music-btn, .map-item, .cursor-pointer, .logo a, nav ul li a,
+.ferris-wheel-group, .pirate-ship-group, .carousel-group, .balloon-group, .coaster-group {
     cursor: url('photo/hand.PNG'), pointer !important; 
 }
 
-/* 👇 關鍵修正：定義 "按下去的瞬間 (:active)" */
-/* 如果不寫這個，點擊的瞬間瀏覽器會切換回預設手指 */
-a:active, 
-button:active, 
-.music-btn:active, 
-.map-item:active, 
-.cursor-pointer:active,
-.logo a:active, 
-nav ul li a:active,
-.ferris-wheel-group:active,
-.pirate-ship-group:active,
-.carousel-group:active,
-.balloon-group:active,
-.coaster-group:active {
+a:active, button:active, .music-btn:active, .map-item:active, .cursor-pointer:active,
+.logo a:active, nav ul li a:active {
     cursor: url('photo/hand.PNG'), pointer !important; 
 }
+
 /* --- 頂部導航欄 (Header) --- */
 header {
     background-color: #f7a8d8;
@@ -67,13 +35,11 @@ header {
     align-items: center;
     padding: 0 40px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-
-    /* === 新增：固定在網頁最上方 === */
-    position: fixed;  /* 固定定位 */
-    top: 0;           /* 貼齊頂部 */
-    left: 0;          /* 貼齊左邊 */
-    width: 100%;      /* 寬度佔滿 */
-    z-index: 1000;    /* 層級設高一點，確保蓋過所有內容 */
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000;
 }
 
 .logo img {
@@ -88,10 +54,7 @@ nav ul {
     gap: 20px;
 }
 
-/* 把登入連結推到最右側 */
-nav ul li.login-link {
-    margin-left: auto;
-}
+nav ul li.login-link { margin-left: auto; }
 
 nav ul li a {
     text-decoration: none;
@@ -105,73 +68,27 @@ nav ul li a {
     display: block;
     position: relative;
     z-index: 20;
-    font-family: "Yusei Magic", sans-serif; /* 手寫風字體 */
+    font-family: "Yusei Magic", sans-serif;
     letter-spacing: 1px;
 }
 
-/* 漸層發光（柔和版） */
-nav ul li a::after{
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 220px;
-    height: 100px;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.92);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 360ms ease, transform 360ms ease;
-    z-index: 15; 
-    background: radial-gradient(circle at 50% 35%, rgba(255,200,220,0.72) 0%, rgba(255,170,200,0.42) 18%, rgba(255,140,185,0.16) 40%, transparent 72%);
-    filter: blur(22px);
-}
-
-nav ul li a:hover,
-nav ul li a:focus-visible {
+nav ul li a:hover {
     transform: translateY(-2px);
-    outline: none;
-}
-
-nav ul li a:hover::after,
-nav ul li a:focus-visible::after{
-    opacity: 0.62;
-    transform: translate(-50%, -50%) scale(1.04);
-}
-
-nav ul li a:hover{
     box-shadow: 0 8px 20px rgba(245,139,189,0.18), 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* 按鈕點擊閃光效果 */
-@keyframes navGlow {
-    0% { box-shadow: 0 6px 18px rgba(245,139,189,0.24), 0 0 40px rgba(245,139,189,0.08) inset; }
-    60% { box-shadow: 0 10px 30px rgba(245,139,189,0.34), 0 0 70px rgba(245,139,189,0.14) inset; }
-    100% { box-shadow: 0 2px 8px rgba(245,139,189,0.08), 0 0 20px rgba(245,139,189,0.04) inset; }
-}
+/* --- 動畫定義 --- */
+@keyframes logo-sway { 0% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } 100% { transform: rotate(-2deg); } }
+@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-40px); } 100% { transform: translateY(0px); } }
+@keyframes sway-tilt { 0% { transform: translateX(0px) rotate(-3deg); } 50% { transform: translateX(14px) rotate(6deg); } 100% { transform: translateX(0px) rotate(-3deg); } }
+@keyframes title-sway { 0% { transform: translateX(0px) rotate(-2deg); } 50% { transform: translateX(10px) rotate(4deg); } 100% { transform: translateX(0px) rotate(-2deg); } }
+@keyframes pirate-top-sway { 0% { transform: rotate(-30deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(-30deg); } }
+@keyframes ferris-wheel-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.nav-glow {
-    animation: navGlow 420ms cubic-bezier(.2,.9,.3,1) both;
-}
-
-nav ul li a:active {
-    box-shadow: 0 8px 22px rgba(245,139,189,0.28), 0 0 50px rgba(245,139,189,0.12) inset;
-    transform: translateY(-1px);
-}
-
-/* --- 動畫效果 --- */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-40px); }
-    100% { transform: translateY(0px); }
-}
-
-/* --- 全站 / 首頁 光影特效 --- */
+/* --- 光影特效 (桌面版) --- */
 body::before{
     content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -2;
+    position: fixed; inset: 0; z-index: -2;
     background: radial-gradient(circle at 8% 18%, rgba(255,200,230,0.06), transparent 22%),
                 radial-gradient(circle at 50% 40%, rgba(250,230,255,0.05), transparent 30%),
                 radial-gradient(circle at 85% 82%, rgba(240,230,255,0.05), transparent 24%);
@@ -179,89 +96,7 @@ body::before{
     filter: blur(22px);
     animation: bgShiftLong 24s ease-in-out infinite;
 }
-
-@keyframes bgShiftLong{
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-18px) scale(1.02); }
-    100% { transform: translateY(0) scale(1); }
-}
-
-/* 光影 orb 容器 */
-.light-wrap{
-    position: absolute;
-    inset: 0;
-    z-index: 6; 
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.light-wrap .orb{
-    position: absolute;
-    width: 920px;
-    height: 920px;
-    border-radius: 50%;
-    filter: blur(140px);
-    mix-blend-mode: screen;
-    opacity: 0.56;
-    transform: translate3d(0,0,0);
-    transition: opacity 700ms ease;
-}
-
-.light-wrap .orb-1{
-    left: -18%; top: -16%; width: 1200px; height: 1200px;
-    background: radial-gradient(circle at 45% 45%, rgba(255,200,230,0.9) 0%, rgba(255,170,210,0.45) 22%, rgba(255,140,195,0.12) 48%, transparent 85%);
-    animation: orbFloat1 36s ease-in-out infinite, neon 7s ease-in-out infinite;
-    animation-delay: 0s, 0s;
-}
-.light-wrap .orb-2{
-    right: -22%; top: -8%; width: 980px; height: 980px;
-    background: radial-gradient(circle at 40% 40%, rgba(210,240,255,0.9) 0%, rgba(170,215,255,0.4) 22%, rgba(130,195,255,0.10) 48%, transparent 86%);
-    animation: orbFloat2 38s ease-in-out infinite, neon 6.2s ease-in-out infinite;
-    animation-delay: 0s, 1.4s;
-}
-.light-wrap .orb-3{
-    left: 12%; bottom: -22%; width: 920px; height: 920px;
-    background: radial-gradient(circle at 35% 35%, rgba(250,245,255,0.9) 0%, rgba(230,200,255,0.42) 20%, rgba(200,165,255,0.09) 44%, transparent 88%);
-    animation: orbFloat3 42s ease-in-out infinite, neon 7.4s ease-in-out infinite;
-    animation-delay: 0s, 2.6s;
-}
-.light-wrap .orb-4{
-    right: 46%; bottom: -6%; width: 1060px; height: 1060px;
-    background: radial-gradient(circle at 38% 38%, rgba(255,245,210,0.9) 0%, rgba(255,215,150,0.38) 22%, rgba(255,185,120,0.08) 44%, transparent 86%);
-    animation: orbFloat4 32s ease-in-out infinite, neon 6.6s ease-in-out infinite;
-    animation-delay: 0s, 0.9s;
-}
-
-@keyframes orbFloat1{ 0% { transform: translate(0px,0px) scale(1); } 50% { transform: translate(-140px,-160px) scale(1.03); } 100% { transform: translate(0px,0px) scale(1); } }
-@keyframes orbFloat2{ 0% { transform: translate(0px,0px) scale(1); } 50% { transform: translate(120px,-104px) scale(1.02); } 100% { transform: translate(0px,0px) scale(1); } }
-@keyframes orbFloat3{ 0% { transform: translate(0px,0px) scale(1); } 50% { transform: translate(-96px,140px) scale(1.025); } 100% { transform: translate(0px,0px) scale(1); } }
-@keyframes orbFloat4{ 0% { transform: translate(0px,0px) scale(1); } 50% { transform: translate(160px,92px) scale(1.03); } 100% { transform: translate(0px,0px) scale(1); } }
-
-@keyframes neon{
-    0%   { opacity: 0.22; filter: brightness(0.95) drop-shadow(0 0 6px rgba(255,255,255,0.0)); }
-    40%  { opacity: 1;    filter: brightness(1.25) drop-shadow(0 0 20px rgba(255,255,255,0.12)); }
-    70%  { opacity: 0.36; filter: brightness(1.02) drop-shadow(0 0 10px rgba(255,255,255,0.06)); }
-    100% { opacity: 0.22; filter: brightness(0.95) drop-shadow(0 0 6px rgba(255,255,255,0.0)); }
-}
-
-@media (max-width: 480px){ .light-wrap .orb{ display:none; } body::before{ display:none; } }
-
-@keyframes sway { 0% { transform: translateX(0px); } 50% { transform: translateX(12px); } 100% { transform: translateX(0px); } }
-
-/* 斜斜搖擺 */
-@keyframes sway-tilt { 0% { transform: translateX(0px) rotate(-3deg); } 50% { transform: translateX(14px) rotate(6deg); } 100% { transform: translateX(0px) rotate(-3deg); } }
-
-/* 標題斜斜左右晃動 */
-@keyframes title-sway { 0% { transform: translateX(0px) rotate(-2deg); } 50% { transform: translateX(10px) rotate(4deg); } 100% { transform: translateX(0px) rotate(-2deg); } }
-
-/* logo 斜向搖擺 */
-@keyframes logo-sway { 0% { transform: translateX(0px) rotate(-2deg); } 50% { transform: translateX(10px) rotate(4deg); } 100% { transform: translateX(0px) rotate(-2deg); } }
-
-/* 海盜船擺盪 */
-@keyframes pirate-top-sway { 0% { transform: rotate(-30deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(-30deg); } }
-
-/* 摩天輪旋轉 */
-@keyframes ferris-wheel-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes bgShiftLong{ 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-18px) scale(1.02); } 100% { transform: translateY(0) scale(1); } }
 
 /* --- 主要內容區 (Hero Section) --- */
 .playground {
@@ -274,51 +109,27 @@ body::before{
     overflow: hidden;
 }
 
-/* --- 圖片通用設定 --- */
 .deco-img { position: absolute; height: auto; }
 
-/* --- 中間大標題 --- */
 .main-title {
-    position: relative;
-    z-index: 10;
-    width: 55%;
-    max-width: 700px;
+    position: relative; z-index: 10;
+    width: 55%; max-width: 700px;
     transform-origin: 50% 50%;
     animation: title-sway 3s ease-in-out infinite;
-    will-change: transform;
 }
 
-/* --- 個別圖片大小與位置調整 --- */
+/* 個別圖片位置 (桌面版) */
 .coaster { top: 8%; left: 3%; width: 18%; transform: rotate(-5deg); animation: sway-tilt 4s ease-in-out infinite; }
-.balloon { top: 3%; left: 50%; width: 13%; transform: rotate(5deg); animation: float 6s ease-in-out infinite; }   
+.balloon { top: 3%; left: 50%; width: 9%; transform: rotate(5deg); animation: float 6s ease-in-out infinite; }   
 .flags { top: 0%; right: 0%; width: 60%; animation: float 6s ease-in-out infinite; }
-
 .pirate-ship2 { bottom: 8%; left: 5%; width: 20%; transform-origin: 50% 0%; animation: pirate-top-sway 2s ease-in-out infinite; }
 .pirate-ship3 { bottom: 8%; left: 5%; width: 20%; }
-
 .ferris-wheel3 { bottom: 1%; left: 41%; width: 18%; transform-origin: center center; animation: ferris-wheel-rotate 8s linear infinite; }
 .ferris-wheel4 { bottom: 0%; left: 50%; width: 23%; transform: translateX(-50%); }
+.pony { bottom: 5%; right: 0%; width:20%; transform-origin: 50% 65%; animation: sway-tilt 4s ease-in-out infinite; }
 
-.pony { bottom: 5%; right: 0%; width:30%; transform-origin: 50% 65%; animation: sway-tilt 4s ease-in-out infinite; }
-
-/* --- 手機版響應式微調 --- */
-@media (max-width: 768px) {
-    header { padding: 0 20px; }
-    nav ul li a { padding: 8px 15px; font-size: 14px; }
-    .main-title { width: 80%; }
-    
-    .coaster { width: 35%; }
-    .balloon { width: 18%; }
-    .flags { width: 40%; }
-    .pirate-ship { width: 28%; }
-    .ferris-wheel { width: 25%; }
-    .pony { width: 25%; }
-}
-
-/* =========================================
-   首頁介紹區樣式 (Intro Section)
-========================================= */
-.intro-section {
+/* --- 介紹區與卡片 --- */
+.intro-section, .info-section {
     position: relative;
     background-color: #fff;
     padding: 80px 20px;
@@ -326,351 +137,215 @@ body::before{
     z-index: 20;
     box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
 }
+.info-section { background-color: #ffe6f6; } /* 票價區背景色 */
 
-.intro-container { max-width: 900px; margin: 0 auto; }
-.intro-section h2 { color: #f58bbd; font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; }
+.intro-container, .info-card { max-width: 900px; margin: 0 auto; }
+
+.info-card {
+    background-color: #fff;
+    border-radius: 20px; padding: 40px;
+    box-shadow: 0 10px 30px rgba(247, 168, 216, 0.2);
+    border: 3px solid #ffeef7;
+}
+
+h2 { color: #f58bbd; font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; }
 .intro-section p { color: #666; line-height: 1.8; font-size: 1.1rem; margin-bottom: 50px; }
 
-/* 三個特色小方塊 */
-.features { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-.feature-box {
-    flex: 1; min-width: 250px; background-color: #ffe6f6; padding: 30px; border-radius: 15px; transition: transform 0.3s ease;
+/* Grid 系統 */
+.features, .hours-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+
+.feature-box, .hours-item {
+    flex: 1; min-width: 250px;
+    background-color: #ffe6f6; padding: 30px; border-radius: 15px;
+    transition: transform 0.3s ease;
 }
-.feature-box:hover { transform: translateY(-10px); }
-.feature-box h3 { color: #d65db1; margin-bottom: 15px; font-size: 1.3rem; }
-.feature-box p { margin-bottom: 0; font-size: 1rem; }
+.hours-item { border: 2px solid #dceeff; background-color: #fff; padding: 20px; }
 
-@media (max-width: 768px) { .features { flex-direction: column; } }
+.feature-box:hover, .hours-item:hover { transform: translateY(-10px); }
 
-/* =========================================
-   捲動現身動畫 (Scroll Reveal)
-========================================= */
+.feature-box h3, .hours-item h3 { color: #d65db1; margin-bottom: 15px; font-size: 1.3rem; }
+.hours-item .time { color: #f7a8d8; font-size: 1.8rem; font-weight: bold; font-family: "Dela Gothic One", sans-serif; }
+
+/* 票價表 */
+.ticket-table { margin-top: 30px; border: 2px solid #fce4ec; border-radius: 15px; overflow: hidden; }
+.ticket-row { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #fce4ec; }
+.ticket-row:nth-child(even) { background-color: #eaf6ff; }
+.ticket-row.last-row { border-bottom: none; }
+.ticket-type { flex: 1; color: #f58bbd; font-size: 1.4rem; font-weight: bold; }
+.ticket-desc { flex: 2; color: #888; font-size: 1rem; }
+.ticket-price { flex: 1; color: #f58bbd; font-size: 1.5rem; font-weight: bold; font-family: "Dela Gothic One", sans-serif; }
+
+/* --- 捲動現身動畫 --- */
 .hidden { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
 .show { opacity: 1; transform: translateY(0); }
 .feature-box:nth-child(1) { transition-delay: 0.2s; }
 .feature-box:nth-child(2) { transition-delay: 0.4s; }
 .feature-box:nth-child(3) { transition-delay: 0.6s; }
 
-/* =========================================
-   可愛字體設定
-========================================= */
+/* --- 字體設定 --- */
 h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
-.heavy-title { font-family: "Dela Gothic One", sans-serif; letter-spacing: 2px; }
 
-/* =========================================
-   全站音樂按鈕樣式 (最重要的部分)
-========================================= */
+/* --- 音樂按鈕 --- */
 .music-btn {
-    position: fixed; /* 固定在視窗角落 */
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;   /* 確保它浮在最上層 */
-    
-    background-color: #fff;
-    border: 3px solid #f7a8d8; /* 粉色邊框 */
-    color: #f58bbd;
-    padding: 10px 20px;
-    border-radius: 50px; /* 圓潤造型 */
-    
-    font-family: "Yusei Magic", sans-serif; /* 配合你的可愛字體 */
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    outline: none;
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background-color: #fff; border: 3px solid #f7a8d8; color: #f58bbd;
+    padding: 10px 20px; border-radius: 50px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.3s ease;
 }
+.music-btn:hover { background-color: #f7a8d8; color: #fff; transform: translateY(-3px) scale(1.05); }
+.music-btn.playing { animation: music-beat 1.5s infinite ease-in-out; }
+@keyframes music-beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-/* 滑鼠移上去的效果 */
-.music-btn:hover {
-    background-color: #f7a8d8;
-    color: #fff;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 15px rgba(245, 139, 189, 0.4);
-}
-
-/* 播放中的特效 (讓按鈕跟著節奏跳動) */
-.music-btn.playing {
-    background-color: #f7a8d8;
-    color: #fff;
-    border-color: #fff;
-    animation: music-beat 1.5s infinite ease-in-out;
-}
-
-@keyframes music-beat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(247, 168, 216, 0.8); }
-}
-/* =========================================
-   新增：首頁資訊區塊 (營業時間 & 購票)
-========================================= */
-
-.info-section {
-    padding: 60px 20px;
-    background-color: #ffe6f6; /* 與背景融合，或可改白色 */
-    display: flex;
-    justify-content: center;
-}
-
-/* 讓兩個區塊背景有點區隔，票價區用白色 */
-.ticket-section {
-    background-color: #fff;
-}
-
-/* 白色大卡片 */
-.info-card {
-    background-color: #fff;
-    width: 100%;
-    max-width: 900px;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(247, 168, 216, 0.2);
-    border: 3px solid #ffeef7; /* 淡粉色邊框 */
-    text-align: center;
-}
-
-/* 標題樣式 */
-.info-card h2 {
-    color: #f58bbd;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    position: relative;
-    display: inline-block;
-}
-
-/* 標題下方的粉色線條 */
-.info-card h2::after {
-    content: '';
-    display: block;
-    width: 120%; /* 比字長一點 */
-    height: 3px;
-    background-color: #f7a8d8;
-    margin: 10px auto 0;
-    transform: translateX(-10%); /* 置中修正 */
-}
-
-/* --- 營業時間樣式 --- */
-.hours-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-.hours-item {
-    flex: 1;
-    min-width: 200px;
-    border: 2px solid #dceeff; /* 淡藍色邊框 */
-    border-radius: 15px;
-    padding: 20px;
-    background-color: #fff;
-}
-
-.hours-item h3 {
-    color: #f58bbd;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-.hours-item .time {
-    color: #f7a8d8;
-    font-size: 1.8rem; /* 大數字 */
-    font-weight: bold;
-    line-height: 1.4;
-    font-family: "Dela Gothic One", sans-serif; /* 數字用粗體 */
-}
-
-/* --- 購票資訊樣式 --- */
-.ticket-table {
-    margin-top: 30px;
-    border: 2px solid #fce4ec; /* 很淡的粉紅外框 */
-    border-radius: 15px;
-    overflow: hidden; /* 讓圓角內的內容不溢出 */
-}
-
-.ticket-row {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #fce4ec;
-}
-
-/* 奇數行給個淡藍色背景，增加可讀性 */
-.ticket-row:nth-child(even) {
-    background-color: #eaf6ff;
-}
-
-.ticket-row.last-row {
-    border-bottom: none;
-}
-
-.ticket-type {
-    flex: 1;
-    color: #f58bbd;
-    font-size: 1.4rem;
-    font-weight: bold;
-}
-
-.ticket-desc {
-    flex: 2;
-    color: #888;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.ticket-price {
-    flex: 1;
-    color: #f58bbd;
-    font-size: 1.5rem;
-    font-weight: bold;
-    font-family: "Dela Gothic One", sans-serif;
-}
-
-/* --- 手機版響應式 --- */
-@media (max-width: 768px) {
-    .hours-grid {
-        flex-direction: column;
-    }
-    
-    .ticket-row {
-        flex-direction: column;
-        gap: 10px;
-        padding: 25px 15px;
-    }
-    
-    .ticket-type {
-        font-size: 1.3rem;
-    }
-}
-/* =========================================
-   新增：底部恐龍桌寵專用樣式
-========================================= */
-
-/* 1. 恐龍的容器 (負責定位在最下方) */
+/* --- 恐龍 (基礎設定) --- */
 .dino-pet-container {
-    position: fixed;   /* 固定定位 */
-    bottom: 0;         /* 貼齊底部 */
-    left: 0;           /* 貼齊左側 */
-    width: 100%;       /* 寬度佔滿整個螢幕 */
-    height: 0;         /* 高度設為 0，關鍵！這樣才不會擋到背景物件的點擊 */
-    z-index: 10000;    /* 層級設最高，確保在音樂按鈕和導覽列之上 */
-    pointer-events: none; /* 讓滑鼠點擊可以穿透容器 */
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 0;
+    z-index: 10000; pointer-events: none;
 }
-
-/* =========================================
-   底部恐龍桌寵 (固定在視窗底部)
-========================================= */
-
-/* 1. 容器：關鍵設定！負責把恐龍釘在螢幕上 */
-.dino-pet-container {
-    position: fixed;      /* ★ 固定定位：不管怎麼滑，它都在視窗原位 */
-    bottom: 0;            /* 貼齊視窗底部 */
-    left: 0;              /* 貼齊視窗左側 */
-    width: 100%;          /* 寬度佔滿 */
-    height: 0;            /* 高度設為 0，避免透明區域擋住網頁連結 */
-    z-index: 10000;       /* 層級設高，確保蓋在其他內容上面 */
-    pointer-events: none; /* 讓滑鼠點擊可以直接穿透容器，點到後面的網頁 */
-}
-
-/* 2. 恐龍本體：負責動畫與大小 */
 .dino-pet {
-    position: absolute;   /* 相對於容器定位 */
-    bottom: 5px;          /* 站在底部稍微往上一點點 */
-    left: -100px;         /* 初始位置在外面 */
-    width: 100px;         /* 恐龍大小 */
-    height: auto;
-    z-index: 10001;
-    
-    /* 讓像素圖保持清晰 */
-    image-rendering: pixelated; 
-    
-    /* 讓恐龍本體可以被點擊 (如果要加點擊互動的話) */
-    pointer-events: auto; 
-
-    /* 動畫設定 */
+    position: absolute; bottom: 5px; left: -100px; width: 100px; height: auto;
+    image-rendering: pixelated; pointer-events: auto; 
     animation: walkAcross 25s linear infinite, dinoBob 0.5s ease-in-out infinite;
 }
-
-/* 3. 走路路徑動畫 (從右走到左，修正版) */
 @keyframes walkAcross {
-    0% {
-        /* 起點：右邊外面，面朝左 */
-        transform: translateX(100vw) scaleX(1); 
-    }
-    49% {
-        /* 走到左邊外面，保持面朝左 */
-        transform: translateX(-100px) scaleX(1); 
-    }
-    50% {
-        /* 瞬間轉向：面朝右 */
-        transform: translateX(-100px) scaleX(-1); 
-    }
-    99% {
-        /* 走回右邊外面，保持面朝右 */
-        transform: translateX(100vw) scaleX(-1);
-    }
-    100% {
-        /* 重置：回到起點，轉回面朝左 */
-        transform: translateX(100vw) scaleX(1);
-    }
+    0% { transform: translateX(100vw) scaleX(1); }
+    49% { transform: translateX(-100px) scaleX(1); }
+    50% { transform: translateX(-100px) scaleX(-1); }
+    99% { transform: translateX(100vw) scaleX(-1); }
+    100% { transform: translateX(100vw) scaleX(1); }
 }
+@keyframes dinoBob { 0%, 100% { bottom: 5px; } 50% { bottom: 10px; } }
 
-/* 4. 上下晃動動畫 */
-@keyframes dinoBob {
-    0%, 100% { bottom: 5px; }
-    50% { bottom: 10px; }
-}
-
-/* 手機版適配 */
-@media (max-width: 768px) {
-    .dino-pet {
-        width: 60px; /* 手機上縮小一點 */
-        /* 手機螢幕窄，走快一點 */
-        animation: walkAcross 15s linear infinite, dinoBob 0.5s ease-in-out infinite;
-    }
-}
-/* =========================================
-   新增：通往裏世界的按鈕樣式
-========================================= */
-
-.mystery-container {
-    width: 100%;
-    text-align: center;
-    padding: 40px 0 80px 0; /* 下方留多一點空間 */
-    background-color: #ffe6f6; /* 跟背景融合 */
-}
-
+/* --- 神秘按鈕 --- */
+.mystery-container { width: 100%; text-align: center; padding: 40px 0 80px 0; background-color: #ffe6f6; }
 .mystery-btn {
-    display: inline-block;
-    text-decoration: none;
-    font-family: 'Courier New', monospace; /* 打字機字體，有點懸疑感 */
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #333; /* 深灰色按鈕 */
-    padding: 15px 40px;
-    border-radius: 50px;
-    transition: all 0.5s ease;
-    border: 2px solid #333;
-    letter-spacing: 5px;
+    display: inline-block; font-family: 'Courier New', monospace; font-size: 1.5rem;
+    font-weight: bold; color: #fff; background-color: #333; padding: 15px 40px;
+    border-radius: 50px; transition: all 0.5s ease; border: 2px solid #333; letter-spacing: 5px;
+    animation: mystery-breath 3s infinite alternate; text-decoration: none;
+}
+.mystery-btn:hover { background-color: #000; color: #ff0000; border-color: #ff0000; transform: scale(1.1) rotate(2deg); cursor: help; }
+@keyframes mystery-breath { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+/* =========================================
+   ▼▼▼ 手機版 RWD 強制修正 (解決按鈕分開問題) ▼▼▼
+========================================= */
+@media (max-width: 768px) {
     
-    /* 讓它隱隱約約在呼吸 */
-    animation: mystery-breath 3s infinite alternate;
-}
+    /* --- 1. 導覽列優化 --- */
+    header {
+        padding: 0 10px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    
+    .logo { flex-shrink: 0; }
+    .logo img { height: 35px !important; } 
 
-/* 滑鼠移上去時，變成紅黑風格，暗示接下來的畫面 */
-.mystery-btn:hover {
-    background-color: #000;
-    color: #ff0000;
-    border-color: #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-    transform: scale(1.1) rotate(2deg); /* 稍微變大並歪斜 */
-    cursor: help; /* 滑鼠變成問號 */
-}
+    nav {
+        flex: 1 !important;
+        margin-left: 10px !important;
+        overflow: visible !important;
+    }
 
-@keyframes mystery-breath {
-    0% { opacity: 0.7; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.05); }
+    nav ul {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-end !important; /* ★關鍵：整組靠右 */
+        align-items: center !important;
+        gap: 8px !important; /* 按鈕之間的距離 */
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    nav ul li { 
+        flex-shrink: 0 !important;
+        list-style: none !important;
+        /* ★★★ 超級關鍵修正：取消電腦版「登入按鈕」的自動推擠，讓它跟著大家一起排隊 ★★★ */
+        margin-left: 0 !important; 
+    }
+    
+    /* 特別針對登入按鈕再寫一次，確保萬無一失 */
+    nav ul li.login-link {
+        margin-left: 0 !important; 
+    }
+    
+    nav ul li a { 
+        font-size: 13px !important;
+        padding: 5px 8px !important; 
+        white-space: nowrap !important; 
+        display: block !important;
+    }
+
+    /* --- 2. 主視覺修正 (維持清晰、位置正確) --- */
+    .playground {
+        height: calc(100vh - 60px);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .main-title {
+        width: 85%;
+        max-width: 320px;
+        z-index: 20;
+    }
+
+    /* 圖片清晰不透明 */
+    .deco-img {
+        opacity: 1 !important; 
+        pointer-events: none;
+        z-index: 1;
+        position: absolute;
+    }
+
+    .coaster { width: 35%; top: 5%; left: 2%; transform: rotate(-5deg); }
+    
+    .balloon { 
+        width: 20%; 
+        top: 25%;   
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) rotate(5deg);
+    }
+    
+    .flags { width: 100%; top: -2%; left: 0; }
+    
+    .pirate-ship2, .pirate-ship3 { width: 35%; bottom: 12%; left: 2%; top: auto; }
+    
+    .pony { width: 45%; bottom: 10%; right: 2%; left: auto; top: auto; }
+
+    /* 摩天輪 (清晰、往下) */
+    .ferris-wheel4 {
+        width: 35%;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 1 !important;
+        z-index: 0;
+    }
+    .ferris-wheel3 {
+        width: 28%;
+        bottom: 6.5%;
+        left: 50%;
+        opacity: 1 !important;
+        z-index: 1;
+        animation: ferris-wheel-rotate-mobile 8s linear infinite;
+        transform-origin: center center;
+    }
+    @keyframes ferris-wheel-rotate-mobile {
+        0% { transform: translateX(-50%) rotate(0deg); }
+        100% { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    /* --- 4. 內容區塊優化 --- */
+    .intro-section, .info-section { padding: 40px 20px; }
+    .features, .hours-grid { flex-direction: column; gap: 20px; }
+    .info-card { padding: 25px 15px; width: 100%; }
+    .ticket-row { flex-direction: column; text-align: center; gap: 5px; }
+    .ticket-price { margin-top: 5px; }
+
+    /* --- 5. 其他元件 --- */
+    .music-btn { padding: 8px 15px; font-size: 13px; bottom: 15px; right: 15px; }
+    .dino-pet { width: 60px; bottom: 5px; }
+    .mystery-container { padding: 20px 0 60px 0; }
 }
