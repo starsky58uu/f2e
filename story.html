@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>白日夢樂園：甦醒代碼</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Serif+TC:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/story_styles.css">
 </head>
 <body>
 
     <div id="game-container" class="scene-normal">
         
+        <div id="scanline-overlay"></div>
+        <div id="vignette-overlay"></div>
+        <div id="glitch-overlay"></div>
+        <div id="flash-overlay"></div>
+
         <div class="status-bar">
             <div class="stat-box">
-                <span class="label">SAN (理智)</span>
+                <span class="label">SAN</span>
                 <div class="progress-bg"><div id="san-bar" class="progress-fill" style="width: 100%;"></div></div>
             </div>
             <div class="stat-box">
-                <span class="label">PAIN (痛覺)</span>
+                <span class="label">PAIN</span>
                 <div class="progress-bg"><div id="pain-bar" class="progress-fill" style="width: 0%;"></div></div>
             </div>
             <div class="inventory-box">
@@ -26,25 +31,15 @@
             </div>
         </div>
 
-        <div class="visual-area">
-            <div id="scene-image"></div>
-            <div id="glitch-overlay"></div> </div>
-
         <div class="dialogue-area">
-            <div class="speaker-name" id="speaker">系統</div>
-            <div class="text-content" id="story-text">
-                正在載入世界數據...
-            </div>
+            <div class="speaker-name" id="speaker">...</div>
+            <div class="text-content" id="story-text"></div>
             
             <div class="choices-container" id="choices">
                 </div>
         </div>
 
     </div>
-
-    <audio id="bgm-horror" loop>
-        <source src="music/horror_ambience.mp3" type="audio/mpeg">
-    </audio>
 
     <script src="js/story_js.js"></script>
 </body>

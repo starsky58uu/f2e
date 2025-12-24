@@ -106,25 +106,28 @@ body {
     align-items: center;
 }
 
-/* --- ★核心修改：置中對話框 --- */
-.dialogue-area {
-    width: 80%;
-    max-width: 800px;
-    background-color: rgba(10, 5, 5, 0.85); /* 半透明深色背景 */
-    border: var(--border-style);
-    border-radius: 4px;
-    padding: 40px;
-    position: relative;
-    z-index: 50;
-    /* 讓它有發光感 */
-    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 50px rgba(0,0,0,0.8);
-    backdrop-filter: blur(5px); /* 背景模糊 */
-    
-    display: flex;
-    flex-direction: column;
-    min-height: 300px;
-}
+/* story_styles.css */
 
+/* --- 對話框外殼 (修正版) --- */
+.dialogue-area {
+    width: 80%; 
+    max-width: 800px;
+    background-color: var(--dialogue-bg);
+    border: 3px solid var(--accent-red);
+    box-shadow: 0 0 0 5px rgba(0,0,0,0.8), 0 0 20px var(--accent-red);
+    padding: 40px; 
+    position: relative; 
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    display: flex; 
+    flex-direction: column; 
+    
+    /* ▼▼▼ 關鍵修正 ▼▼▼ */
+    margin-top: 120px;           /* 保持避開頂部 HUD */
+    min-height: 200px;           /* 設定最小高度 */
+    overflow: visible !important; /* ★強制顯示突出的標題★ */
+    height: auto;                /* 高度隨內容自動撐開 */
+}
 /* 裝飾角落 */
 .dialogue-area::after {
     content: '';
@@ -144,28 +147,35 @@ body {
 }
 
 .speaker-name {
-    position: absolute;
-    top: -20px;
+    position: absolute; 
+    top: -25px; 
     left: 20px;
-    background: var(--accent-red);
+    background: var(--accent-red); 
     color: #000;
-    padding: 5px 15px;
-    font-size: 1.2rem;
-    font-weight: 900;
-    font-family: 'Noto Serif TC', serif;
-    transform: skewX(-10deg);
-    box-shadow: 3px 3px 0 #000;
-}
-
-.text-content {
+    padding: 5px 20px; 
+    font-weight: 900; 
     font-size: 1.3rem;
-    line-height: 1.8;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    min-height: 100px;
-    text-shadow: 0 0 2px #000;
+    font-family: 'Noto Serif TC', serif;
+    border: 3px solid #000; 
+    transform: skewX(-15deg);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.5);
+    
+    z-index: 60; /* ★確保層級比對話框高 */
 }
 
+/* --- 內文區域 (修正版) --- */
+.text-content {
+    font-size: 1.35rem; 
+    line-height: 1.7;
+    margin: 20px 0 30px 0; 
+    
+    text-shadow: 1px 1px 2px #000;
+
+    /* ▼▼▼ 關鍵修正：捲動條移到這裡 ▼▼▼ */
+    max-height: 50vh;    /* 限制文字高度，超過就捲動 */
+    overflow-y: auto;    /* 啟用垂直捲動 */
+    padding-right: 15px; /* 避免文字貼到捲動條 */
+}
 /* 打字機光標 */
 .typing-cursor::after {
     content: '_';
@@ -236,4 +246,39 @@ body {
     60% { transform: translate(5px, 5px); }
     80% { transform: translate(5px, -5px); }
     100% { transform: translate(0); }
+}
+/* =========================================
+   ▼▼▼ 客製化恐怖風格捲動條 ▼▼▼
+========================================= */
+
+/* 1. 設定捲動條的寬度 (針對 Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 8px; /* 很細，不佔空間 */
+    height: 8px;
+}
+
+/* 2. 捲動條的軌道 (背景) */
+::-webkit-scrollbar-track {
+    background: #050000; /* 極深紅黑色 */
+    border-left: 1px solid #330000; /* 淡淡的邊框 */
+}
+
+/* 3. 捲動條的拉桿 (手指抓的地方) */
+::-webkit-scrollbar-thumb {
+    background: #550000; /* 暗紅色 */
+    border: 1px solid #ff3333; /* 亮紅邊框，像晶片 */
+    border-radius: 0; /* 方角，比較有數位感 */
+}
+
+/* 4. 滑鼠移上去時，拉桿發光 */
+::-webkit-scrollbar-thumb:hover {
+    background: #ff0000;
+    box-shadow: 0 0 10px #ff0000; /* 紅色光暈 */
+    cursor: pointer;
+}
+
+/* 針對 Firefox 的設定 (Firefox 語法不同) */
+* {
+    scrollbar-width: thin;          /* 細條 */
+    scrollbar-color: #550000 #000;  /* 拉桿顏色 軌道顏色 */
 }
