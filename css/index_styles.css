@@ -1,29 +1,29 @@
-/* index_styles.css - 終極修正版 (含 RWD 強制定位) */
+/* index_styles.css - 終極修正版 (含漢堡選單) */
 
 /* --- 基礎設定 --- */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* 確保寬度計算不跑版 */
+    box-sizing: border-box;
 }
 
 body {
     font-family: "Zen Maru Gothic", "Microsoft JhengHei", "微軟正黑體", sans-serif;
     background-color: #ffe6f6;
-    overflow-x: hidden; /* 防止水平捲軸 */
+    overflow-x: hidden;
     padding-top: 80px;  /* 避開導覽列 */
-    cursor: url('photo/hand2.png'), auto !important; 
+    cursor: url('../photo/hand2.png'), auto !important; 
 }
 
 /* 連結與按鈕狀態 */
 a, button, .music-btn, .map-item, .cursor-pointer, .logo a, nav ul li a,
 .ferris-wheel-group, .pirate-ship-group, .carousel-group, .balloon-group, .coaster-group {
-    cursor: url('photo/hand.png'), pointer !important; 
+    cursor: url('../photo/hand.png'), pointer !important; 
 }
 
 a:active, button:active, .music-btn:active, .map-item:active, .cursor-pointer:active,
 .logo a:active, nav ul li a:active {
-    cursor: url('photo/hand.png'), pointer !important; 
+    cursor: url('../photo/hand.png'), pointer !important; 
 }
 
 /* --- 頂部導航欄 (Header) --- */
@@ -48,6 +48,26 @@ header {
     animation: logo-sway 3s ease-in-out infinite;
 }
 
+/* 漢堡按鈕 (預設隱藏) */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    z-index: 2000;
+}
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* 電腦版選單 */
 nav ul {
     list-style: none;
     display: flex;
@@ -85,7 +105,7 @@ nav ul li a:hover {
 @keyframes pirate-top-sway { 0% { transform: rotate(-30deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(-30deg); } }
 @keyframes ferris-wheel-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* --- 光影特效 (桌面版) --- */
+/* --- 光影特效 --- */
 body::before{
     content: '';
     position: fixed; inset: 0; z-index: -2;
@@ -98,7 +118,7 @@ body::before{
 }
 @keyframes bgShiftLong{ 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-18px) scale(1.02); } 100% { transform: translateY(0) scale(1); } }
 
-/* --- 主要內容區 (Hero Section) --- */
+/* --- Hero Section --- */
 .playground {
     position: relative;
     width: 100%;
@@ -137,7 +157,7 @@ body::before{
     z-index: 20;
     box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
 }
-.info-section { background-color: #ffe6f6; } /* 票價區背景色 */
+.info-section { background-color: #ffe6f6; }
 
 .intro-container, .info-card { max-width: 900px; margin: 0 auto; }
 
@@ -225,235 +245,145 @@ h1, h2, h3 { font-family: "Yusei Magic", sans-serif; }
 }
 .mystery-btn:hover { background-color: #000; color: #ff0000; border-color: #ff0000; transform: scale(1.1) rotate(2deg); cursor: help; }
 @keyframes mystery-breath { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+
+/* --- Footer --- */
+.dreamy-footer {
+    background-color: #fff0f5; 
+    border-top: 4px solid #ffb7c5; 
+    padding: 60px 20px 20px;
+    margin-top: 50px;
+    color: #cc8899; 
+}
+.footer-content {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 30px;
+}
+.contact-info { flex: 1; min-width: 250px; }
+.contact-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: #ff99bb; font-weight: bold; }
+.contact-item p { font-size: 1rem; margin-bottom: 15px; line-height: 1.5; }
+.footer-logo { flex: 1; text-align: center; min-width: 200px; }
+.footer-logo img { height: 70px; width: auto; transition: transform 0.3s ease; }
+.footer-logo img:hover { transform: scale(1.1) rotate(5deg); }
+.footer-social { flex: 1; display: flex; justify-content: flex-end; min-width: 250px; }
+.social-icons { display: flex; gap: 15px; }
+.social-icons a {
+    width: 45px; height: 45px; background-color: #ffb7c5; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; text-decoration: none; transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
+}
+.social-icons a:hover { background-color: #ff8da1; transform: translateY(-5px); box-shadow: 0 6px 15px rgba(255, 141, 161, 0.6); }
+.copyright { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #ffb7c5; font-size: 0.9rem; color: #d8aab6; }
+
 /* =========================================
-   ▼▼▼ 手機版 RWD 強制修正 (解決按鈕分開問題) ▼▼▼
+   ▼▼▼ 手機版 RWD 漢堡選單修正 ▼▼▼
 ========================================= */
 @media (max-width: 768px) {
     
-    /* --- 1. 導覽列優化 --- */
+    /* 1. Header & Hamburger */
     header {
-        padding: 0 10px !important;
+        padding: 0 20px !important;
         height: 60px !important;
-        display: flex !important;
         justify-content: space-between !important;
-        align-items: center !important;
     }
-    
-    .logo { flex-shrink: 0; }
     .logo img { height: 35px !important; } 
+    .hamburger-menu { display: flex; } /* 顯示漢堡 */
 
+    /* 2. 手機版滑出選單 */
     nav {
-        flex: 1 !important;
-        margin-left: 10px !important;
-        overflow: visible !important;
-    }
-
-    nav ul {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        justify-content: flex-end !important; /* ★關鍵：整組靠右 */
-        align-items: center !important;
-        gap: 8px !important; /* 按鈕之間的距離 */
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    nav ul li { 
-        flex-shrink: 0 !important;
-        list-style: none !important;
-        /* ★★★ 超級關鍵修正：取消電腦版「登入按鈕」的自動推擠，讓它跟著大家一起排隊 ★★★ */
-        margin-left: 0 !important; 
-    }
-    
-    /* 特別針對登入按鈕再寫一次，確保萬無一失 */
-    nav ul li.login-link {
-        margin-left: 0 !important; 
-    }
-    
-    nav ul li a { 
-        font-size: 13px !important;
-        padding: 5px 8px !important; 
-        white-space: nowrap !important; 
-        display: block !important;
-    }
-
-    /* --- 2. 主視覺修正 (維持清晰、位置正確) --- */
-    .playground {
-        height: calc(100vh - 60px);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .main-title {
-        width: 85%;
-        max-width: 320px;
-        z-index: 20;
-    }
-
-    /* 圖片清晰不透明 */
-    .deco-img {
-        opacity: 1 !important; 
-        pointer-events: none;
-        z-index: 1;
         position: absolute;
+        top: 60px; /* 接在 Header 下方 */
+        left: 0;
+        width: 100%;
+        background-color: #fff0f5;
+        border-bottom: 3px solid #ffb7c5;
+        padding: 0;
+        margin: 0 !important;
+        
+        /* 隱藏狀態 */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        z-index: 999;
     }
 
+    /* 展開狀態 */
+    nav.active {
+        max-height: 400px;
+        opacity: 1;
+        padding: 20px 0;
+    }
+
+    /* 選單列表垂直排列 */
+    nav ul {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* 登入按鈕不需推擠，回歸隊伍 */
+    nav ul li.login-link { margin-left: 0 !important; }
+
+    nav ul li a {
+        display: inline-block !important;
+        width: 80%;
+        padding: 12px !important;
+        font-size: 16px !important;
+        background-color: #fff;
+        color: #f58bbd;
+        border: 2px solid #ffb7c5;
+    }
+
+    /* 漢堡按鈕動畫 */
+    .hamburger-menu.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+        background-color: #f58bbd;
+    }
+    .hamburger-menu.active span:nth-child(2) { opacity: 0; }
+    .hamburger-menu.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+        background-color: #f58bbd;
+    }
+
+    /* 3. 其他 RWD 修正 */
+    .playground { height: calc(100vh - 60px); }
+    .main-title { width: 85%; max-width: 320px; }
+    .deco-img { opacity: 1 !important; pointer-events: none; z-index: 1; position: absolute; }
+    
     .coaster { width: 35%; top: 5%; left: 2%; transform: rotate(-5deg); }
-    
-    .balloon { 
-        width: 20%; 
-        top: 25%;   
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%) rotate(5deg);
-    }
-    
+    .balloon { width: 20%; top: 25%; left: 50%; right: auto; transform: translateX(-50%) rotate(5deg); }
     .flags { width: 100%; top: -2%; left: 0; }
-    
     .pirate-ship2, .pirate-ship3 { width: 35%; bottom: 12%; left: 2%; top: auto; }
-    
     .pony { width: 45%; bottom: 10%; right: 2%; left: auto; top: auto; }
-
-    /* 摩天輪 (清晰、往下) */
-    .ferris-wheel4 {
-        width: 35%;
-        bottom: 5%;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 1 !important;
-        z-index: 0;
-    }
-    .ferris-wheel3 {
-        width: 28%;
-        bottom: 6.5%;
-        left: 50%;
-        opacity: 1 !important;
-        z-index: 1;
-        animation: ferris-wheel-rotate-mobile 8s linear infinite;
-        transform-origin: center center;
-    }
+    
+    .ferris-wheel4 { width: 35%; bottom: 5%; left: 50%; transform: translateX(-50%); opacity: 1 !important; z-index: 0; }
+    .ferris-wheel3 { width: 28%; bottom: 6.5%; left: 50%; opacity: 1 !important; z-index: 1; animation: ferris-wheel-rotate-mobile 8s linear infinite; transform-origin: center center; }
     @keyframes ferris-wheel-rotate-mobile {
         0% { transform: translateX(-50%) rotate(0deg); }
         100% { transform: translateX(-50%) rotate(360deg); }
     }
 
-    /* --- 4. 內容區塊優化 --- */
     .intro-section, .info-section { padding: 40px 20px; }
     .features, .hours-grid { flex-direction: column; gap: 20px; }
     .info-card { padding: 25px 15px; width: 100%; }
     .ticket-row { flex-direction: column; text-align: center; gap: 5px; }
     .ticket-price { margin-top: 5px; }
-
-    /* --- 5. 其他元件 --- */
     .music-btn { padding: 8px 15px; font-size: 13px; bottom: 15px; right: 15px; }
     .dino-pet { width: 60px; bottom: 5px; }
     .mystery-container { padding: 20px 0 60px 0; }
-}
-/* =========================================
-   ▼▼▼ 粉色夢幻版頁尾 (新增) ▼▼▼
-========================================= */
-.dreamy-footer {
-    background-color: #fff0f5; /* 淺粉色背景 (LavenderBlush) */
-    border-top: 4px solid #ffb7c5; /* 深粉色邊框 */
-    padding: 60px 20px 20px;
-    margin-top: 50px;
-    color: #cc8899; /* 藕粉色文字 */
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* RWD */
-    gap: 30px;
-}
-
-/* 左側文字 */
-.contact-info {
-    flex: 1;
-    min-width: 250px;
-}
-.contact-item h3 {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    color: #ff99bb; /* 亮粉色標題 */
-    font-weight: bold;
-}
-.contact-item p {
-    font-size: 1rem;
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-/* 中間 Logo */
-.footer-logo {
-    flex: 1;
-    text-align: center;
-    min-width: 200px;
-}
-.footer-logo img {
-    height: 70px; /* Logo 大小 */
-    width: auto;
-    transition: transform 0.3s ease;
-}
-.footer-logo img:hover {
-    transform: scale(1.1) rotate(5deg); /* 滑鼠移過去會晃動 */
-}
-
-/* 右側社群 */
-.footer-social {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    min-width: 250px;
-}
-
-.social-icons {
-    display: flex;
-    gap: 15px;
-}
-
-.social-icons a {
-    width: 45px;
-    height: 45px;
-    background-color: #ffb7c5; /* 按鈕背景色 */
-    color: #fff; /* 圖示顏色 */
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(255, 182, 193, 0.5);
-}
-
-.social-icons a:hover {
-    background-color: #ff8da1; /* hover 變深 */
-    transform: translateY(-5px); /* 往上浮起 */
-    box-shadow: 0 6px 15px rgba(255, 141, 161, 0.6);
-}
-
-/* 底部版權宣告 */
-.copyright {
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px dashed #ffb7c5;
-    font-size: 0.9rem;
-    color: #d8aab6;
-}
-
-/* 手機版 RWD */
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
     
-    .footer-social {
-        justify-content: center;
-    }
+    .footer-content { flex-direction: column; text-align: center; }
+    .footer-social { justify-content: center; }
 }

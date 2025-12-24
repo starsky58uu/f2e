@@ -11,6 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script>
+        // 請確認您的 Firebase Config 是否正確填入
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxGH9O2Kj4n19rYj4Nv_VJwv12bR9ripw",
+            authDomain: "daydream-land.firebaseapp.com",
+            projectId: "daydream-land",
+            storageBucket: "daydream-land.firebasestorage.app",
+            messagingSenderId: "1003867215444",
+            appId: "1:1003867215444:web:080708c8d6b390a1687fc1"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
 </head>
 <body>
 
@@ -18,6 +33,13 @@
         <div class="logo">
             <a href="index.html"><img src="./photo/main-title.png" alt="遊樂園 Logo"></a>
         </div>
+
+        <div class="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <nav>
             <ul>
                 <li><a href="introdution.html">設施介紹</a></li>
@@ -174,6 +196,30 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            if (hamburger && nav) {
+                // 點擊漢堡按鈕
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    nav.classList.toggle('active');
+                });
+
+                // 點擊連結後收起選單
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        nav.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
         (function() {
             var audio = document.getElementById("bgm");
             var btn = document.getElementById("music-toggle");
@@ -210,11 +256,11 @@
                 }
             }
 
-            // 在 index.html 的 <script> 中加入
+            // Firebase Auth 狀態監聽
             firebase.auth().onAuthStateChanged((user) => {
                 const loginLink = document.querySelector('.login-link a');
                 if (user) {
-                    // 使用者已登入
+                    // 已登入
                     loginLink.innerHTML = '登出 (' + (user.displayName || user.email.split('@')[0]) + ')';
                     loginLink.href = '#';
                     loginLink.addEventListener('click', (e) => {
@@ -225,15 +271,14 @@
                         });
                     });
                 } else {
-                    // 使用者未登入
+                    // 未登入
                     loginLink.innerHTML = '登入';
                     loginLink.href = 'login.html';
                 }
             });
         })();
-    </script>
 
-    <script>
+        // 捲動特效
         const heroSection = document.getElementById('hero');
         window.addEventListener('scroll', function() {
             let scrollPosition = window.scrollY;
@@ -252,24 +297,6 @@
 
         const hiddenElements = document.querySelectorAll('.hidden');
         hiddenElements.forEach((el) => observer.observe(el));
-
-        (function(){
-            var navLinks = document.querySelectorAll('nav ul li a');
-            if(!navLinks) return;
-            navLinks.forEach(function(a){
-                a.addEventListener('click', function(e){
-                    a.classList.add('nav-glow');
-                    if (a.__navGlowTimeout) clearTimeout(a.__navGlowTimeout);
-                    a.__navGlowTimeout = setTimeout(function(){
-                        a.classList.remove('nav-glow');
-                        a.__navGlowTimeout = null;
-                    }, 520);
-                });
-                a.addEventListener('animationend', function(){
-                    a.classList.remove('nav-glow');
-                });
-            });
-        })();
     </script>
 </body>
 </html>
