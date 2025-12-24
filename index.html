@@ -209,6 +209,27 @@
                     localStorage.setItem("musicPlaying", "false");
                 }
             }
+
+            // 在 index.html 的 <script> 中加入
+            firebase.auth().onAuthStateChanged((user) => {
+                const loginLink = document.querySelector('.login-link a');
+                if (user) {
+                    // 使用者已登入
+                    loginLink.innerHTML = '登出 (' + (user.displayName || user.email.split('@')[0]) + ')';
+                    loginLink.href = '#';
+                    loginLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        firebase.auth().signOut().then(() => {
+                            alert('已登出');
+                            location.reload();
+                        });
+                    });
+                } else {
+                    // 使用者未登入
+                    loginLink.innerHTML = '登入';
+                    loginLink.href = 'login.html';
+                }
+            });
         })();
     </script>
 

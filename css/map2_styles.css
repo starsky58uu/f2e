@@ -8,13 +8,13 @@ body {
     color: #ffcccc; 
     overflow-x: hidden;
     /* 游標設定 */
-    cursor: url('photo/hand2.PNG'), auto !important; 
+    cursor: url('photo/hand2.png'), auto !important; 
     padding-top: 80px; 
 }
 
 /* 連結與按鈕狀態 */
 a, button, .music-btn, .map-item, .dino-pet {
-    cursor: url('photo/hand.PNG'), pointer !important; 
+    cursor: url('photo/hand.png'), pointer !important; 
 }
 
 /* --- 導航欄選中狀態 (紅底黑字) --- */

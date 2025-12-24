@@ -12,18 +12,18 @@ body {
     background-color: #ffe6f6;
     overflow-x: hidden; /* 防止水平捲軸 */
     padding-top: 80px;  /* 避開導覽列 */
-    cursor: url('photo/hand2.PNG'), auto !important; 
+    cursor: url('photo/hand2.png'), auto !important; 
 }
 
 /* 連結與按鈕狀態 */
 a, button, .music-btn, .map-item, .cursor-pointer, .logo a, nav ul li a,
 .ferris-wheel-group, .pirate-ship-group, .carousel-group, .balloon-group, .coaster-group {
-    cursor: url('photo/hand.PNG'), pointer !important; 
+    cursor: url('photo/hand.png'), pointer !important; 
 }
 
 a:active, button:active, .music-btn:active, .map-item:active, .cursor-pointer:active,
 .logo a:active, nav ul li a:active {
-    cursor: url('photo/hand.PNG'), pointer !important; 
+    cursor: url('photo/hand.png'), pointer !important; 
 }
 
 /* --- 頂部導航欄 (Header) --- */

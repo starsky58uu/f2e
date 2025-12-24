@@ -15,11 +15,11 @@ body {
     overflow-x: hidden;
     padding-top: 80px; 
 
-    cursor: url('photo/hand2.PNG'), auto !important; 
+    cursor: url('photo/hand2.png'), auto !important; 
 }
 
 a, button, .music-btn, .map-item, .dino-pet {
-    cursor: url('photo/hand.PNG'), pointer !important; 
+    cursor: url('photo/hand.png'), pointer !important; 
 }
 
 /* --- 2. 頂部導航欄 --- */

@@ -8,12 +8,12 @@ body {
     color: #ffcccc;
     overflow-x: hidden;
     padding-top: 80px;
-    cursor: url('photo/hand2.PNG'), auto !important;
+    cursor: url('photo/hand2.png'), auto !important;
 }
 
 /* 連結與按鈕狀態 */
 a, button, .music-btn, .dino-pet {
-    cursor: url('photo/hand.PNG'), pointer !important;
+    cursor: url('photo/hand.png'), pointer !important;
 }
 
 /* --- 導航欄 --- */

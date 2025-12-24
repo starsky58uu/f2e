@@ -42,9 +42,9 @@
                 </div>
 
                 <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                     data-callback="handleCredentialResponse"
-                     data-auto_prompt="false">
+                    data-client_id="1003867215444-6vn8h0u91lri3g4odd3291i7mn4jltks.apps.googleusercontent.com" 
+                    data-callback="handleCredentialResponse"
+                    data-auto_prompt="false">
                 </div>
                 <div class="g_id_signin"
                      data-type="standard"
@@ -114,4 +114,72 @@
         }
     </script>
 </body>
+    <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxGH9O2Kj4n19rYj4Nv_VJwv12bR9ripw",
+        authDomain: "daydream-land.firebaseapp.com",
+        projectId: "daydream-land",
+        storageBucket: "daydream-land.firebasestorage.app",
+        messagingSenderId: "1003867215444",
+        appId: "1:1003867215444:web:080708c8d6b390a1687fc1"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = app.auth();
+
+    // 3. 電子郵件/密碼登入
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('user').value;
+        const password = document.getElementById('password').value;
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                alert('登入成功！');
+                window.location.href = 'index.html'; // 登入成功跳轉
+            })
+            .catch((error) => {
+                // 如果帳號不存在，自動幫使用者註冊 (這是一個方便的邏輯)
+                if (error.code === 'auth/user-not-found') {
+                    handleSignUp(email, password);
+                } else {
+                    alert('登入失敗: ' + error.message);
+                }
+            });
+    });
+
+    // 註冊邏輯
+    function handleSignUp(email, password) {
+        if (confirm('找不到此帳號，要直接註冊嗎？')) {
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    alert('註冊並登入成功！');
+                    window.location.href = 'index.html';
+                })
+                .catch(err => alert('註冊失敗: ' + err.message));
+        }
+    }
+
+    // 4. Google 登入 (取代原本的 Google Button 邏輯)
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    
+    // 找到原本 Google 按鈕的容器，加上點擊事件
+    document.querySelector('.g_id_signin').addEventListener('click', function() {
+        auth.signInWithPopup(googleProvider)
+            .then((result) => {
+                alert('Google 登入成功！歡迎 ' + result.user.displayName);
+                window.location.href = 'index.html';
+            })
+            .catch((error) => {
+                alert('Google 登入失敗: ' + error.message);
+            });
+    });
+    </script>
 </html>
