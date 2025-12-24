@@ -20,27 +20,7 @@
         <section class="login-card" aria-labelledby="login-title">
             <h1 id="login-title">會員登入</h1>
 
-            <form id="loginForm" action="#" method="post" novalidate>
-                <label for="user">帳號或電子郵件</label>
-                <input id="user" name="user" type="text" placeholder="請輸入帳號或電子郵件" required>
-
-                <label for="password">密碼</label>
-                <input id="password" name="password" type="password" placeholder="請輸入密碼" required>
-
-                <div class="row">
-                    <label class="remember">
-                        <input type="checkbox" name="remember">
-                        記住我
-                    </label>
-                    <a href="#" class="forgot">忘記密碼？</a>
-                </div>
-
-                <button type="submit" class="btn">登入</button>
-
-                <div class="divider">
-                    <span>OR</span>
-                </div>
-
+            <div style="margin-top: 30px;">
                 <div id="g_id_onload"
                     data-client_id="1003867215444-6vn8h0u91lri3g4odd3291i7mn4jltks.apps.googleusercontent.com" 
                     data-callback="handleCredentialResponse"
@@ -55,8 +35,8 @@
                      data-logo_alignment="left"
                      data-width="100%">
                 </div>
-                <p class="signup">還沒有帳號？ <a href="#">註冊</a></p>
-            </form>
+            </div>
+
         </section>
         
         <div class="back-link-container hidden">
@@ -69,30 +49,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             var page = document.querySelector('.login-page');
             if (page) page.classList.add('loaded');
-
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                var user = document.getElementById('user').value.trim();
-                var pwd = document.getElementById('password').value;
-                if (!user) {
-                    alert('請輸入帳號或電子郵件');
-                    document.getElementById('user').focus();
-                    return;
-                }
-                if (!pwd) {
-                    alert('請輸入密碼');
-                    document.getElementById('password').focus();
-                    return;
-                }
-                alert('表單已送出（示範，不會送出到後端）');
-            });
+            
+            // 原本這裡的 loginForm 監聽器已移除
         });
 
-        // 3. Google 登入回調函式 (處理登入成功後的資料)
+        // 3. Google 登入回調函式 (處理登入成功後的資料 - 這是 GSI 官方流程)
         function handleCredentialResponse(response) {
             console.log("Encoded JWT ID token: " + response.credential);
             
-            // 解析 JWT (僅供前端示範，實際應傳送 response.credential 到後端驗證)
+            // 解析 JWT (僅供前端示範)
             const responsePayload = decodeJwtResponse(response.credential);
 
             console.log("ID: " + responsePayload.sub);
@@ -114,7 +79,8 @@
         }
     </script>
 </body>
-    <script type="module">
+
+<script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     // TODO: Add SDKs for Firebase products that you want to use
@@ -132,54 +98,33 @@
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const auth = app.auth();
+    // 注意：您原本的代碼中這裡定義了 auth 但下面沒有用到它來做 Email 登入(因為我刪掉了)，
+    // 但下面的 Google Popup 邏輯需要它，所以我補上了下面這行 import 確保 auth 可用
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+    const auth = getAuth(app);
 
-    // 3. 電子郵件/密碼登入
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const email = document.getElementById('user').value;
-        const password = document.getElementById('password').value;
+    // 原本的 Email/Password 登入監聽器與 handleSignUp 函式已移除
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                alert('登入成功！');
-                window.location.href = 'index.html'; // 登入成功跳轉
-            })
-            .catch((error) => {
-                // 如果帳號不存在，自動幫使用者註冊 (這是一個方便的邏輯)
-                if (error.code === 'auth/user-not-found') {
-                    handleSignUp(email, password);
-                } else {
-                    alert('登入失敗: ' + error.message);
-                }
-            });
-    });
-
-    // 註冊邏輯
-    function handleSignUp(email, password) {
-        if (confirm('找不到此帳號，要直接註冊嗎？')) {
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    alert('註冊並登入成功！');
-                    window.location.href = 'index.html';
-                })
-                .catch(err => alert('註冊失敗: ' + err.message));
-        }
-    }
-
-    // 4. Google 登入 (取代原本的 Google Button 邏輯)
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    // 4. Google 登入 (Firebase 邏輯)
+    const googleProvider = new GoogleAuthProvider();
     
     // 找到原本 Google 按鈕的容器，加上點擊事件
-    document.querySelector('.g_id_signin').addEventListener('click', function() {
-        auth.signInWithPopup(googleProvider)
-            .then((result) => {
-                alert('Google 登入成功！歡迎 ' + result.user.displayName);
-                window.location.href = 'index.html';
-            })
-            .catch((error) => {
-                alert('Google 登入失敗: ' + error.message);
-            });
-    });
-    </script>
+    // 注意：因為上面使用了 GSI (g_id_signin)，Google 會在裡面渲染 iframe。
+    // 這裡保留您的邏輯，嘗試監聽該容器的點擊來觸發 Firebase Popup。
+    const googleBtn = document.querySelector('.g_id_signin');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', function() {
+            auth.signInWithPopup(googleProvider)
+                .then((result) => {
+                    alert('Google 登入成功！歡迎 ' + result.user.displayName);
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    console.log("Firebase Popup Error (可能與 GSI 衝突，但依指示保留邏輯):", error);
+                    // 這裡不一定要 alert，因為 GSI 可能已經處理了
+                });
+        });
+    }
+</script>
+
 </html>

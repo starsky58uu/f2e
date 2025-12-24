@@ -1,24 +1,61 @@
-/* story_js.js - 最終修正版 (無音效特效 + 隨機選項 + 語法修復) */
+/* story_js.js - 影音特效完整版 (BGM + Visuals + Random Choices) */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 0. 視覺特效控制器 (VFX Controller)
+    // 0. 系統控制器 (音效 & 視覺)
     // ==========================================
-    const vfx = {
+    const sys = {
+        // --- 音效元件 ---
+        bgmNormal: document.getElementById('bgm-normal'),
+        bgmHorror: document.getElementById('bgm-horror'),
+        sfx: {
+            click: document.getElementById('sfx-click'),
+            glitch: document.getElementById('sfx-glitch'),
+            roar: document.getElementById('sfx-roar'),
+            stab: document.getElementById('sfx-stab'),
+            heartbeat: document.getElementById('sfx-heartbeat')
+        },
+
+        // --- 視覺元件 ---
         container: document.getElementById('game-container'),
         body: document.body,
         glitchOverlay: document.getElementById('glitch-overlay'),
-        
-        // 1. 強烈震動 (驚嚇/撞擊)
+
+        // --- BGM 功能 ---
+        playBGM: function(type) {
+            // 先暫停所有 BGM
+            if(this.bgmNormal) this.bgmNormal.pause();
+            if(this.bgmHorror) this.bgmHorror.pause();
+            
+            if (type === 'normal' && this.bgmNormal) {
+                this.bgmNormal.currentTime = 0;
+                this.bgmNormal.volume = 0.4;
+                this.bgmNormal.play().catch(e => console.log("等待互動播放音樂"));
+            } else if (type === 'horror' && this.bgmHorror) {
+                this.bgmHorror.currentTime = 0;
+                this.bgmHorror.volume = 0.6;
+                this.bgmHorror.play().catch(e => console.log("等待互動播放音樂"));
+            }
+        },
+
+        // --- SFX 功能 ---
+        playSFX: function(name) {
+            const sound = this.sfx[name];
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
+        },
+
+        // --- 視覺特效功能 ---
         shake: function() {
             this.container.classList.remove('shake-effect');
-            void this.container.offsetWidth; // 強制重繪
+            void this.container.offsetWidth; 
             this.container.classList.add('shake-effect');
             setTimeout(() => this.container.classList.remove('shake-effect'), 500);
         },
 
-        // 2. 紅閃 (受傷/痛覺)
         flashRed: function() {
             this.body.classList.remove('flash-active');
             void this.body.offsetWidth;
@@ -26,19 +63,28 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => this.body.classList.remove('flash-active'), 500);
         },
 
-        // 3. 雜訊+色散 (精神錯亂/轉場)
         glitch: function() {
             this.body.classList.add('glitch-active');
+            this.playSFX('glitch'); // 同步播放雜訊聲
             setTimeout(() => this.body.classList.remove('glitch-active'), 600);
         },
 
-        // 4. 心跳脈衝 (持續性緊張狀態)
         setHeartbeat: function(active) {
-            if(active) this.body.classList.add('heartbeat-active');
-            else this.body.classList.remove('heartbeat-active');
+            if(active) {
+                this.body.classList.add('heartbeat-active');
+                if(this.sfx.heartbeat) {
+                    this.sfx.heartbeat.loop = true;
+                    this.sfx.heartbeat.play().catch(()=>{});
+                }
+            } else {
+                this.body.classList.remove('heartbeat-active');
+                if(this.sfx.heartbeat) {
+                    this.sfx.heartbeat.pause();
+                    this.sfx.heartbeat.currentTime = 0;
+                }
+            }
         },
 
-        // 5. 壓力暗角 (環境壓迫感)
         setStressLevel: function(high) {
             if(high) this.body.classList.add('high-stress');
             else this.body.classList.remove('high-stress');
@@ -57,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 2. 劇本數據 (★修正：全部改用反引號 ` 包覆文字)
+    // 2. 劇本數據
     // ==========================================
     const storyData = {
         // --- 序章 ---
@@ -65,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `午後的陽光肆無忌憚地灑落在白日夢樂園的長椅上，曬得人渾身酥軟。四周是歡快的遊樂園音樂與孩童的嬉鬧聲。<br><br>雖然腦海深處隱約記得入園須知上那條鮮紅色的警告——『園區內嚴禁睡眠』，但眼皮卻像灌了鉛一樣沉重，意識逐漸模糊……`,
             speaker: "旁白",
             bg: "scene-normal",
+            effect: () => sys.playBGM('normal'), // ★ 播放快樂 BGM
             choices: [
                 { text: "掙扎著去買杯咖啡提神", next: 'end0' },
                 { text: "不管了，就瞇十分鐘", next: 'chapter1_transition' }
@@ -87,8 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bg: "scene-horror",
             effect: () => {
                 updateStat('san', -5); 
-                vfx.glitch(); // 轉場雜訊
-                vfx.setStressLevel(true); // 開啟壓力暗角
+                sys.playBGM('horror'); // ★ 切換恐怖 BGM
+                sys.glitch();          // 轉場雜訊
+                sys.setStressLevel(true);
             },
             choices: [
                 { text: "睜開眼睛，觀察四周", next: 'chapter1_start' }
@@ -124,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.hasNote = true; 
                 addItem('前輩的字條');
                 updateStat('san', -10); 
-                vfx.shake(); // 驚嚇震動
+                sys.shake(); // 驚嚇震動
             },
             choices: [
                 { text: "閱讀染血的字跡", next: 'read_senior_note' }
@@ -145,9 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "狀態更新",
             bg: "scene-horror",
             effect: () => {
-                gameState.san = 100; // SAN值鎖定
+                gameState.san = 100; 
                 updateUI();
-                vfx.glitch(); // 精神受影響
+                sys.glitch(); // 精神受影響
             },
             choices: [
                 { text: "繼續向前走", next: 'chapter2_dino_encounter_A' }
@@ -157,7 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `地面開始震動，一隻表皮潰爛、露出森森白骨的<span class="corrupted">暴龍</span>轉角衝了出來！<br><br>它張開血盆大口，噴出腐蝕性的氣體。但在喝了飲料的你眼中，那不過是遊樂園裡逼真的 3D 特效罷了。你呆呆地看著它，甚至想伸手觸摸……`,
             speaker: "遭遇",
             bg: "scene-horror",
-            effect: () => vfx.shake(), // 腳步震動
+            effect: () => {
+                sys.playSFX('roar'); // ★ 恐龍吼叫
+                sys.shake(); 
+            },
             choices: [
                 { text: "站在原地欣賞特效", next: 'end1' }, 
                 { text: "本能地尖叫逃跑", next: 'chapter3_start' } 
@@ -178,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bg: "scene-horror",
             effect: () => {
                 updateStat('pain', 10); 
-                vfx.flashRed(); // 輕微不適
+                sys.flashRed(); 
             },
             choices: [
                 { text: "遭遇襲擊！", next: 'chapter2_dino_encounter_B' }
@@ -188,7 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `轟——！牆壁被撞破，一隻腐爛的<span class="corrupted">暴龍</span>衝了出來！它沒有眼球的眼窩正對著你，鼻孔噴著酸氣。<br><br>字條上寫著：『恐龍是瞎子，看不見靜止物體』……`,
             speaker: "遭遇",
             bg: "scene-horror",
-            effect: () => vfx.shake(), // 強烈震動
+            effect: () => {
+                sys.playSFX('roar'); // ★ 恐龍吼叫
+                sys.shake();
+            },
             choices: [
                 { text: "拔腿狂奔", next: 'end1' }, 
                 { text: "原地趴下裝死", next: 'chapter2_play_dead' } 
@@ -200,8 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
             bg: "scene-horror",
             effect: () => {
                 updateStat('pain', 30); 
-                vfx.flashRed(); // 受傷
-                vfx.setHeartbeat(true); // 進入緊張狀態
+                sys.flashRed(); 
+                sys.setHeartbeat(true); // ★ 開始心跳聲
             },
             choices: [
                 { text: "忍痛爬起，進入下一區", next: 'chapter3_start' }
@@ -214,8 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "BAD END: 盲目的飼料",
             bg: "scene-horror",
             effect: () => {
-                vfx.shake(); 
-                vfx.flashRed();
+                sys.playSFX('stab'); // ★ 骨碎聲
+                sys.shake(); 
+                sys.flashRed();
             },
             choices: [
                 { text: "重新挑戰", action: () => location.reload() },
@@ -228,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `你踉蹌著逃到了休息區。路邊的攤位上擺滿了香氣四溢的紅肉，但仔細一看，那肉塊上竟然還殘留著人類的指紋。<br><br>這時，一個穿著白大褂的身影向你走來。他的臉部是一片光滑的皮膚，<span class="corrupted">沒有五官</span>。「你看起來很焦慮，也受傷了。讓我幫你治療，再吃點東西吧？」`,
             speaker: "無臉醫生",
             bg: "scene-horror",
-            effect: () => vfx.setHeartbeat(false), // 暫時解除緊張
+            effect: () => sys.setHeartbeat(false), 
             choices: [
                 { text: "接受治療並吃肉", next: 'end2' }, 
                 { text: "拒絕並製造痛覺", next: 'chapter3_self_harm_check' } 
@@ -240,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `你點了點頭。醫生溫柔地切斷了你的神經，<span class="corrupted">痛楚瞬間消失了</span>。你大口吃著肉塊，覺得無比美味。<br><br>世界變得美好，天空變回了藍色。你感覺雙腳生根，變成了園區裡一棵修剪整齊的裝飾樹，臉上掛著永遠無法卸下的微笑。`,
             speaker: "BAD END: 快樂的盆栽",
             bg: "scene-normal",
+            effect: () => sys.playBGM('normal'), // ★ 變回快樂音樂(諷刺)
             choices: [
                 { text: "重新挑戰", action: () => location.reload() },
                 { text: "回到遊樂園 (入口)", action: () => window.location.href = 'index2.html' }
@@ -261,9 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
             bg: "scene-horror",
             effect: () => {
                 updateStat('pain', 40); 
-                vfx.flashRed(); // 強烈紅閃
-                vfx.shake();    // 強烈震動
-                vfx.glitch();   // 幻覺破碎
+                sys.playSFX('stab'); // ★ 刺擊聲
+                sys.flashRed(); 
+                sys.shake();    
+                sys.glitch();   
             },
             choices: [
                 { text: "大口喘息，等待下一步", next: 'chapter4_start' }
@@ -275,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `突然，淒厲的防空警報聲響徹雲霄！<br>廣播傳來無機質的聲音：「系統緩存清理開始，請所有滯留者原地待命（等待<span class="corrupted">刪除</span>）。」<br><br>遠處，一道接天連地的白色毀滅光束正像掃描儀一樣，緩緩向你推進，所過之處萬物<span class="corrupted">湮滅</span>。`,
             speaker: "系統廣播",
             bg: "scene-horror",
-            effect: () => vfx.setHeartbeat(true), // 恢復緊張脈衝
+            effect: () => sys.setHeartbeat(true),
             choices: [
                 { text: "呆站在原地", next: 'end3' }, 
                 { text: "尋找掩護", next: 'chapter4_decision' }
@@ -284,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'chapter4_decision': {
             autoRedirect: true,
             check: () => {
-                if (gameState.hasNote) return 'chapter4_hide_corpse'; // 有字條才知道躲屍體
+                if (gameState.hasNote) return 'chapter4_hide_corpse'; 
                 else return 'end3'; 
             }
         },
@@ -293,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "僥倖",
             bg: "scene-horror",
             effect: () => {
-                vfx.shake(); // 光束掃過
+                sys.shake(); 
             },
             choices: [
                 { text: "前往最終廣場", next: 'chapter5_start' }
@@ -305,7 +362,10 @@ document.addEventListener('DOMContentLoaded', () => {
             text: `你不知道發生了什麼，或者你躲錯了地方。<br><br>白光掃過你的身體。沒有痛苦，沒有聲音。你的身體在一瞬間分解成了無數綠色的<span class="corrupted">二進制代碼</span>，飄散在虛擬的風中。`,
             speaker: "BAD END: 格式化",
             bg: "scene-horror",
-            effect: () => vfx.glitch(), // 分解
+            effect: () => {
+                sys.glitch(); 
+                sys.playSFX('glitch');
+            },
             choices: [
                 { text: "重新挑戰", action: () => location.reload() },
                 { text: "回到遊樂園 (入口)", action: () => window.location.href = 'index2.html' }
@@ -327,7 +387,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'check_pain_for_true_end': {
             autoRedirect: true,
             check: () => {
-                // PDF 說 >80。計算：尿布(+10) + 裝死(+30) + 自殘(+40) = 80。
                 if (gameState.pain >= 80) return 'true_end'; 
                 else return 'end4_fail'; 
             }
@@ -339,8 +398,8 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "NORMAL END: 第N號前輩",
             bg: "scene-horror",
             effect: () => {
-                vfx.setHeartbeat(false);
-                vfx.setStressLevel(false);
+                sys.setHeartbeat(false);
+                sys.setStressLevel(false);
             },
             choices: [
                 { text: "重新挑戰", action: () => location.reload() },
@@ -352,8 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "結局",
             bg: "scene-horror",
             effect: () => {
-                vfx.setHeartbeat(false);
-                vfx.setStressLevel(false);
+                sys.setHeartbeat(false);
+                sys.setStressLevel(false);
             },
             choices: [
                 { text: "重新挑戰", action: () => location.reload() },
@@ -367,10 +426,11 @@ document.addEventListener('DOMContentLoaded', () => {
             speaker: "TRUE END: 夢醒時分",
             bg: "scene-normal",
             effect: () => {
-                vfx.shake(); // 衝擊
-                vfx.glitch(); // 系統崩潰
-                vfx.setHeartbeat(false);
-                vfx.setStressLevel(false);
+                sys.shake(); 
+                sys.glitch(); 
+                sys.setHeartbeat(false);
+                sys.setStressLevel(false);
+                sys.playBGM('normal'); // 最後回到正常音樂
             },
             choices: [
                 { text: "感謝遊玩", action: () => alert("恭喜通關！你成功逃離了白日夢樂園。") },
@@ -444,6 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = 'choice-btn';
             btn.innerHTML = choice.text; 
             btn.onclick = () => {
+                // 點擊選項播放音效
+                sys.playSFX('click');
                 if (choice.action) {
                     choice.action(); 
                 } else {
