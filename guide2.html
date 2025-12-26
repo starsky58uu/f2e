@@ -64,6 +64,29 @@
     <audio id="bgm" loop>
         <source src="music/bgm2.mp3" type="audio/mpeg">
     </audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            if (hamburger && nav) {
+                // 點擊漢堡按鈕
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    nav.classList.toggle('active');
+                });
+
+                // 點擊連結後收起選單
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        nav.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
 
     <button id="music-toggle" class="music-btn">🎵 音樂：關</button>
 
